@@ -1,0 +1,52 @@
+[
+  {
+    "location": "tbilisi",
+    "date": "08-15",
+    "label": "Tbilisi wedding, August 15"
+  },
+  {
+    "location": "batumi",
+    "date": "07-04",
+    "label": "Batumi beach day, July 4"
+  },
+  {
+    "location": "kutaisi",
+    "date": "10-10",
+    "label": "Kutaisi hiking, October 10"
+  },
+  {
+    "location": "tbilisi",
+    "date": "05-12",
+    "label": "Tbilisi festival, May 12"
+  },
+  {
+    "location": "batumi",
+    "date": "09-01",
+    "label": "Batumi marina, September 1"
+  },
+  {
+    "location": "kutaisi",
+    "date": "12-31",
+    "label": "Kutaisi New Year Eve, Dec 31"
+  },
+  {
+    "location": "tbilisi",
+    "date": "01-20",
+    "label": "Tbilisi winter fair, Jan 20"
+  },
+  {
+    "location": "batumi",
+    "date": "03-08",
+    "label": "Batumi spring event, Mar 8"
+  },
+  {
+    "location": "kutaisi",
+    "date": "04-25",
+    "label": "Kutaisi trail run, Apr 25"
+  },
+  {
+    "location": "tbilisi",
+    "date": "06-10",
+    "label": "Tbilisi park day, Jun 10"
+  }
+]

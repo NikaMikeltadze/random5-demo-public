@@ -1,6 +1,6 @@
 import os
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Dict
 
 import numpy as np
@@ -41,7 +41,7 @@ NASA_ATTRIBUTION = {
     'dataset': 'NASA POWER',
     'api_url': 'https://power.larc.nasa.gov/',
     'citation': 'NASA/POWER CERES/MERRA2 Native Resolution Daily and Hourly Data',
-    'access_date': datetime.utcnow().date().isoformat(),
+    'access_date': datetime.now(timezone.utc).date().isoformat(),
 }
 
 os.makedirs(os.path.join('data', 'processed'), exist_ok=True)
@@ -222,11 +222,11 @@ def summarize_city(daily_df: pd.DataFrame, city_key: str) -> Dict:
 
     # Annual precipitation (approx)
     if 'PRECTOTCORR' in daily_df.columns:
-        annual_ppt = daily_df['PRECTOTCORR'].resample('Y').sum(min_count=1).mean()
+        annual_ppt = daily_df['PRECTOTCORR'].resample('YE').sum(min_count=1).mean()
         summary['climate_summary']['annual_precipitation_mm'] = float(annual_ppt) if pd.notna(annual_ppt) else None
     # Average annual temp
     if 'T2M' in daily_df.columns:
-        avg_temp = daily_df['T2M'].resample('Y').mean().mean()
+        avg_temp = daily_df['T2M'].resample('YE').mean().mean()
         summary['climate_summary']['avg_annual_temp_c'] = float(avg_temp) if pd.notna(avg_temp) else None
 
     # Monthly summaries for wettest/driest/hottest
@@ -247,13 +247,13 @@ def summarize_city(daily_df: pd.DataFrame, city_key: str) -> Dict:
 
     # Simple annual counts for extremes (approximate)
     if 'PRECTOTCORR' in daily_df.columns:
-        yearly_heavy = (daily_df['PRECTOTCORR'] > 10.0).resample('Y').sum(min_count=1).mean()
+        yearly_heavy = (daily_df['PRECTOTCORR'] > 10.0).resample('YE').sum(min_count=1).mean()
         summary['extreme_event_annual_probabilities']['heavy_rain_days'] = float(yearly_heavy) if pd.notna(yearly_heavy) else None
     if 'T2M_MAX' in daily_df.columns:
-        yearly_heat = (daily_df['T2M_MAX'] > 35.0).resample('Y').sum(min_count=1).mean()
+        yearly_heat = (daily_df['T2M_MAX'] > 35.0).resample('YE').sum(min_count=1).mean()
         summary['extreme_event_annual_probabilities']['extreme_heat_days'] = float(yearly_heat) if pd.notna(yearly_heat) else None
     if 'WS10M_MAX' in daily_df.columns:
-        yearly_wind = (daily_df['WS10M_MAX'] > 10.0).resample('Y').sum(min_count=1).mean()
+        yearly_wind = (daily_df['WS10M_MAX'] > 10.0).resample('YE').sum(min_count=1).mean()
         summary['extreme_event_annual_probabilities']['high_wind_days'] = float(yearly_wind) if pd.notna(yearly_wind) else None
 
     return summary
@@ -286,7 +286,7 @@ if __name__ == '__main__':
         all_locations.append(summarize_city(daily_df, city_key))
 
     demo_summary = {
-        'generated_at': datetime.utcnow().isoformat() + 'Z',
+        'generated_at': datetime.now(timezone.utc).isoformat(),
         'hackathon': 'NASA Space Apps 2025',
         'project': 'Will It Rain On My Parade?',
         'locations': all_locations,

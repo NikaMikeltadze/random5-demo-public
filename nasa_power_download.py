@@ -343,17 +343,17 @@ if __name__ == "__main__":
         lat = location['lat']
         lon = location['lon']
 
-        # # DAILY
-        # try:
-        #     daily_df = download_nasa_power_daily(lat, lon, daily_start, daily_end, params_daily, chunk_years=1)
-        #     if daily_df is not None and not daily_df.empty:
-        #         out_path = os.path.join('data', 'raw', f'{city_key}_daily_raw.csv')
-        #         daily_df.to_csv(out_path)
-        #         print(f"Saved daily data to {out_path} with shape {daily_df.shape}")
-        #     else:
-        #         print("No daily data returned.")
-        # except Exception as e:
-        #     print(f"Error downloading daily data for {city_key}: {e}")
+        # DAILY
+        try:
+            daily_df = download_nasa_power_daily(lat, lon, daily_start, daily_end, params_daily, chunk_years=1)
+            if daily_df is not None and not daily_df.empty:
+                out_path = os.path.join('data', 'raw', f'{city_key}_daily_raw.csv')
+                daily_df.to_csv(out_path)
+                print(f"Saved daily data to {out_path} with shape {daily_df.shape}")
+            else:
+                print("No daily data returned.")
+        except Exception as e:
+            print(f"Error downloading daily data for {city_key}: {e}")
 
         # HOURLY
         try:
