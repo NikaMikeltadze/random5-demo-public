@@ -1,5 +1,5 @@
 import { Calendar } from 'lucide-react';
-import { toDateInputValue, fromDateInputValue, formatDateForDisplay } from '../utils/dateHelpers';
+import { toDateInputValue, fromDateInputValue, formatDateForDisplay, CURRENT_YEAR } from '../utils/dateHelpers';
 import { parse } from 'date-fns';
 
 interface DatePickerProps {
@@ -16,7 +16,7 @@ export default function DatePicker({ selectedDate, onDateChange }: DatePickerPro
     }
   };
 
-  const displayDate = parse(`2024-${selectedDate}`, 'yyyy-MM-dd', new Date());
+  const displayDate = parse(`${CURRENT_YEAR}-${selectedDate}`, 'yyyy-MM-dd', new Date());
   const displayText = formatDateForDisplay(displayDate);
 
   return (

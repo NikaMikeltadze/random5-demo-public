@@ -1,5 +1,9 @@
 import { getDayOfYear, parse, format } from 'date-fns';
 
+// Use dynamic current year for UI display/input, but keep 2024 for internal
+// day-of-year calculations to support Feb 29 where needed.
+export const CURRENT_YEAR = new Date().getFullYear();
+
 /**
  * Convert a date string (MM-DD) or Date object to day of year (1-366)
  */
@@ -40,7 +44,7 @@ export function parseMonthDay(dateStr: string): { month: number; day: number } {
  * Create a date string in YYYY-MM-DD format for HTML date input
  */
 export function toDateInputValue(dateStr: string): string {
-  return `2024-${dateStr}`;
+  return `${CURRENT_YEAR}-${dateStr}`;
 }
 
 /**
