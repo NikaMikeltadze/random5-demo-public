@@ -30,6 +30,12 @@ python preprocess_probabilities.py
 python validate_data.py
 ```
 
+7. Run ML-based trend detection (independent of frontend)
+
+```bash
+python ml_trend_detection.py
+```
+
 ## Output Files
 
 ```
@@ -47,7 +53,11 @@ data/
 │   ├── batumi_daily_stats.json
 │   ├── batumi_hourly_stats.json
 │   ├── kutaisi_daily_stats.json
-│   └── kutaisi_hourly_stats.json
+│   ├── kutaisi_hourly_stats.json
+│   ├── tbilisi_ml_trends.json
+│   ├── batumi_ml_trends.json
+│   ├── kutaisi_ml_trends.json
+│   └── ml_trends_summary.json
 └── demo/
     └── all_locations_summary.json
 ```

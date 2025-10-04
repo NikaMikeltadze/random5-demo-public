@@ -1,0 +1,17 @@
+{
+  "cities": [
+    {
+      "city": "tbilisi",
+      "path": "data\\processed\\tbilisi_ml_trends.json"
+    },
+    {
+      "city": "batumi",
+      "path": "data\\processed\\batumi_ml_trends.json"
+    },
+    {
+      "city": "kutaisi",
+      "path": "data\\processed\\kutaisi_ml_trends.json"
+    }
+  ],
+  "note": "ML-based trend detection using logistic regression with bootstrap CI on NASA POWER daily data"
+}

@@ -1,0 +1,1070 @@
+{
+  "city": "tbilisi",
+  "name": "Tbilisi, Georgia",
+  "coordinates": {
+    "lat": 41.7151,
+    "lon": 44.8271,
+    "name": "Tbilisi, Georgia"
+  },
+  "nasa_source": {
+    "dataset": "NASA POWER",
+    "api_url": "https://power.larc.nasa.gov/",
+    "citation": "NASA/POWER CERES/MERRA2 Native Resolution Daily and Hourly Data",
+    "access_date": "2025-10-04"
+  },
+  "available": true,
+  "results": {
+    "PRECTOTCORR": {
+      "heavy_rain_above_10mm": {
+        "model": "logistic_regression(year -> exceedance)",
+        "coef_year_standardized": 0.30201365715138934,
+        "coef_ci_95": {
+          "lo": 0.09451360678566893,
+          "hi": 0.5261739641668731
+        },
+        "significant": true,
+        "trend": "increasing",
+        "n_days": 7305,
+        "n_years": 20
+      },
+      "very_heavy_rain_above_25mm": {
+        "model": "logistic_regression(year -> exceedance)",
+        "coef_year_standardized": 0.2722073945166933,
+        "coef_ci_95": {
+          "lo": 0.05020620635554637,
+          "hi": 0.500950052188965
+        },
+        "significant": true,
+        "trend": "increasing",
+        "n_days": 7305,
+        "n_years": 20
+      },
+      "extreme_rain_above_50mm": {
+        "model": "logistic_regression(year -> exceedance)",
+        "coef_year_standardized": 0.1477190050729973,
+        "coef_ci_95": {
+          "lo": 0.13516274675331266,
+          "hi": 0.38373097528266803
+        },
+        "significant": true,
+        "trend": "increasing",
+        "n_days": 7305,
+        "n_years": 20
+      }
+    },
+    "T2M_MAX": {
+      "hot_above_30C": {
+        "model": "logistic_regression(year -> exceedance)",
+        "coef_year_standardized": 0.047347470234051656,
+        "coef_ci_95": {
+          "lo": -0.006246060049432378,
+          "hi": 0.10087820131895461
+        },
+        "significant": false,
+        "trend": "stable",
+        "n_days": 7305,
+        "n_years": 20
+      },
+      "very_hot_above_35C": {
+        "model": "logistic_regression(year -> exceedance)",
+        "coef_year_standardized": -0.06460676201606985,
+        "coef_ci_95": {
+          "lo": -0.16632080912271233,
+          "hi": 0.02513865857944253
+        },
+        "significant": false,
+        "trend": "stable",
+        "n_days": 7305,
+        "n_years": 20
+      },
+      "extreme_heat_above_40C": {
+        "model": "logistic_regression(year -> exceedance)",
+        "coef_year_standardized": -0.023844755829782426,
+        "coef_ci_95": {
+          "lo": -0.32682798376085753,
+          "hi": 0.23847145798387098
+        },
+        "significant": false,
+        "trend": "stable",
+        "n_days": 7305,
+        "n_years": 20
+      }
+    },
+    "T2M_MIN": {
+      "freezing_below_0C": {
+        "model": "logistic_regression(year -> exceedance)",
+        "coef_year_standardized": -0.0564418071907879,
+        "coef_ci_95": {
+          "lo": -0.10953933851187826,
+          "hi": -0.007598151780259646
+        },
+        "significant": true,
+        "trend": "decreasing",
+        "n_days": 7305,
+        "n_years": 20
+      },
+      "very_cold_below_minus10C": {
+        "model": "logistic_regression(year -> exceedance)",
+        "coef_year_standardized": -0.2416989384401687,
+        "coef_ci_95": {
+          "lo": -0.4726164272198147,
+          "hi": -0.05524813086130361
+        },
+        "significant": true,
+        "trend": "decreasing",
+        "n_days": 7305,
+        "n_years": 20
+      }
+    },
+    "WS10M_MAX": {
+      "windy_above_10mps": {
+        "model": "logistic_regression(year -> exceedance)",
+        "coef_year_standardized": 0.1080071359917714,
+        "coef_ci_95": {
+          "lo": -0.024693399572630583,
+          "hi": 0.2389066697836461
+        },
+        "significant": false,
+        "trend": "stable",
+        "n_days": 7305,
+        "n_years": 20
+      },
+      "very_windy_above_15mps": {
+        "model": "logistic_regression(year -> exceedance)",
+        "coef_year_standardized": -0.1814886483010699,
+        "coef_ci_95": {
+          "lo": -0.3641476772755721,
+          "hi": 0.003316232883174546
+        },
+        "significant": false,
+        "trend": "stable",
+        "n_days": 7305,
+        "n_years": 20
+      },
+      "extreme_wind_above_20mps": {
+        "model": "logistic_regression(year -> exceedance)",
+        "coef_year_standardized": 0.0,
+        "coef_ci_95": {
+          "lo": 0.0,
+          "hi": 0.0
+        },
+        "significant": false,
+        "trend": "stable",
+        "n_days": 7305,
+        "n_years": 20
+      }
+    }
+  },
+  "annual_probabilities": {
+    "PRECTOTCORR": {
+      "heavy_rain_above_10mm": [
+        {
+          "year": 2005,
+          "probability": 0.0273972602739726
+        },
+        {
+          "year": 2006,
+          "probability": 0.00821917808219178
+        },
+        {
+          "year": 2007,
+          "probability": 0.0136986301369863
+        },
+        {
+          "year": 2008,
+          "probability": 0.00273224043715847
+        },
+        {
+          "year": 2009,
+          "probability": 0.010958904109589041
+        },
+        {
+          "year": 2010,
+          "probability": 0.0136986301369863
+        },
+        {
+          "year": 2011,
+          "probability": 0.005479452054794521
+        },
+        {
+          "year": 2012,
+          "probability": 0.00273224043715847
+        },
+        {
+          "year": 2013,
+          "probability": 0.0027397260273972603
+        },
+        {
+          "year": 2014,
+          "probability": 0.00821917808219178
+        },
+        {
+          "year": 2015,
+          "probability": 0.010958904109589041
+        },
+        {
+          "year": 2016,
+          "probability": 0.01366120218579235
+        },
+        {
+          "year": 2017,
+          "probability": 0.010958904109589041
+        },
+        {
+          "year": 2018,
+          "probability": 0.010958904109589041
+        },
+        {
+          "year": 2019,
+          "probability": 0.010958904109589041
+        },
+        {
+          "year": 2020,
+          "probability": 0.0273224043715847
+        },
+        {
+          "year": 2021,
+          "probability": 0.024657534246575342
+        },
+        {
+          "year": 2022,
+          "probability": 0.01643835616438356
+        },
+        {
+          "year": 2023,
+          "probability": 0.019178082191780823
+        },
+        {
+          "year": 2024,
+          "probability": 0.03825136612021858
+        }
+      ],
+      "very_heavy_rain_above_25mm": [
+        {
+          "year": 2005,
+          "probability": 0.0
+        },
+        {
+          "year": 2006,
+          "probability": 0.0
+        },
+        {
+          "year": 2007,
+          "probability": 0.0
+        },
+        {
+          "year": 2008,
+          "probability": 0.0
+        },
+        {
+          "year": 2009,
+          "probability": 0.0
+        },
+        {
+          "year": 2010,
+          "probability": 0.0
+        },
+        {
+          "year": 2011,
+          "probability": 0.0
+        },
+        {
+          "year": 2012,
+          "probability": 0.0
+        },
+        {
+          "year": 2013,
+          "probability": 0.0
+        },
+        {
+          "year": 2014,
+          "probability": 0.0
+        },
+        {
+          "year": 2015,
+          "probability": 0.0
+        },
+        {
+          "year": 2016,
+          "probability": 0.0
+        },
+        {
+          "year": 2017,
+          "probability": 0.0027397260273972603
+        },
+        {
+          "year": 2018,
+          "probability": 0.0
+        },
+        {
+          "year": 2019,
+          "probability": 0.0
+        },
+        {
+          "year": 2020,
+          "probability": 0.0
+        },
+        {
+          "year": 2021,
+          "probability": 0.0027397260273972603
+        },
+        {
+          "year": 2022,
+          "probability": 0.0027397260273972603
+        },
+        {
+          "year": 2023,
+          "probability": 0.0
+        },
+        {
+          "year": 2024,
+          "probability": 0.0
+        }
+      ],
+      "extreme_rain_above_50mm": [
+        {
+          "year": 2005,
+          "probability": 0.0
+        },
+        {
+          "year": 2006,
+          "probability": 0.0
+        },
+        {
+          "year": 2007,
+          "probability": 0.0
+        },
+        {
+          "year": 2008,
+          "probability": 0.0
+        },
+        {
+          "year": 2009,
+          "probability": 0.0
+        },
+        {
+          "year": 2010,
+          "probability": 0.0
+        },
+        {
+          "year": 2011,
+          "probability": 0.0
+        },
+        {
+          "year": 2012,
+          "probability": 0.0
+        },
+        {
+          "year": 2013,
+          "probability": 0.0
+        },
+        {
+          "year": 2014,
+          "probability": 0.0
+        },
+        {
+          "year": 2015,
+          "probability": 0.0
+        },
+        {
+          "year": 2016,
+          "probability": 0.0
+        },
+        {
+          "year": 2017,
+          "probability": 0.0
+        },
+        {
+          "year": 2018,
+          "probability": 0.0
+        },
+        {
+          "year": 2019,
+          "probability": 0.0
+        },
+        {
+          "year": 2020,
+          "probability": 0.0
+        },
+        {
+          "year": 2021,
+          "probability": 0.0
+        },
+        {
+          "year": 2022,
+          "probability": 0.0027397260273972603
+        },
+        {
+          "year": 2023,
+          "probability": 0.0
+        },
+        {
+          "year": 2024,
+          "probability": 0.0
+        }
+      ]
+    },
+    "T2M_MAX": {
+      "hot_above_30C": [
+        {
+          "year": 2005,
+          "probability": 0.15616438356164383
+        },
+        {
+          "year": 2006,
+          "probability": 0.2465753424657534
+        },
+        {
+          "year": 2007,
+          "probability": 0.2191780821917808
+        },
+        {
+          "year": 2008,
+          "probability": 0.1994535519125683
+        },
+        {
+          "year": 2009,
+          "probability": 0.14246575342465753
+        },
+        {
+          "year": 2010,
+          "probability": 0.23835616438356164
+        },
+        {
+          "year": 2011,
+          "probability": 0.15616438356164383
+        },
+        {
+          "year": 2012,
+          "probability": 0.2103825136612022
+        },
+        {
+          "year": 2013,
+          "probability": 0.18356164383561643
+        },
+        {
+          "year": 2014,
+          "probability": 0.27123287671232876
+        },
+        {
+          "year": 2015,
+          "probability": 0.2547945205479452
+        },
+        {
+          "year": 2016,
+          "probability": 0.19398907103825136
+        },
+        {
+          "year": 2017,
+          "probability": 0.26575342465753427
+        },
+        {
+          "year": 2018,
+          "probability": 0.19452054794520549
+        },
+        {
+          "year": 2019,
+          "probability": 0.23013698630136986
+        },
+        {
+          "year": 2020,
+          "probability": 0.24316939890710382
+        },
+        {
+          "year": 2021,
+          "probability": 0.23835616438356164
+        },
+        {
+          "year": 2022,
+          "probability": 0.2219178082191781
+        },
+        {
+          "year": 2023,
+          "probability": 0.18904109589041096
+        },
+        {
+          "year": 2024,
+          "probability": 0.1912568306010929
+        }
+      ],
+      "very_hot_above_35C": [
+        {
+          "year": 2005,
+          "probability": 0.052054794520547946
+        },
+        {
+          "year": 2006,
+          "probability": 0.10684931506849316
+        },
+        {
+          "year": 2007,
+          "probability": 0.057534246575342465
+        },
+        {
+          "year": 2008,
+          "probability": 0.05737704918032787
+        },
+        {
+          "year": 2009,
+          "probability": 0.03287671232876712
+        },
+        {
+          "year": 2010,
+          "probability": 0.1095890410958904
+        },
+        {
+          "year": 2011,
+          "probability": 0.0410958904109589
+        },
+        {
+          "year": 2012,
+          "probability": 0.0546448087431694
+        },
+        {
+          "year": 2013,
+          "probability": 0.00821917808219178
+        },
+        {
+          "year": 2014,
+          "probability": 0.09315068493150686
+        },
+        {
+          "year": 2015,
+          "probability": 0.10410958904109589
+        },
+        {
+          "year": 2016,
+          "probability": 0.06830601092896176
+        },
+        {
+          "year": 2017,
+          "probability": 0.10684931506849316
+        },
+        {
+          "year": 2018,
+          "probability": 0.07671232876712329
+        },
+        {
+          "year": 2019,
+          "probability": 0.049315068493150684
+        },
+        {
+          "year": 2020,
+          "probability": 0.04371584699453552
+        },
+        {
+          "year": 2021,
+          "probability": 0.0958904109589041
+        },
+        {
+          "year": 2022,
+          "probability": 0.04657534246575343
+        },
+        {
+          "year": 2023,
+          "probability": 0.0547945205479452
+        },
+        {
+          "year": 2024,
+          "probability": 0.01912568306010929
+        }
+      ],
+      "extreme_heat_above_40C": [
+        {
+          "year": 2005,
+          "probability": 0.0
+        },
+        {
+          "year": 2006,
+          "probability": 0.010958904109589041
+        },
+        {
+          "year": 2007,
+          "probability": 0.0
+        },
+        {
+          "year": 2008,
+          "probability": 0.0
+        },
+        {
+          "year": 2009,
+          "probability": 0.0
+        },
+        {
+          "year": 2010,
+          "probability": 0.0
+        },
+        {
+          "year": 2011,
+          "probability": 0.005479452054794521
+        },
+        {
+          "year": 2012,
+          "probability": 0.0
+        },
+        {
+          "year": 2013,
+          "probability": 0.0
+        },
+        {
+          "year": 2014,
+          "probability": 0.0027397260273972603
+        },
+        {
+          "year": 2015,
+          "probability": 0.00821917808219178
+        },
+        {
+          "year": 2016,
+          "probability": 0.0
+        },
+        {
+          "year": 2017,
+          "probability": 0.005479452054794521
+        },
+        {
+          "year": 2018,
+          "probability": 0.010958904109589041
+        },
+        {
+          "year": 2019,
+          "probability": 0.0027397260273972603
+        },
+        {
+          "year": 2020,
+          "probability": 0.0
+        },
+        {
+          "year": 2021,
+          "probability": 0.005479452054794521
+        },
+        {
+          "year": 2022,
+          "probability": 0.0
+        },
+        {
+          "year": 2023,
+          "probability": 0.0
+        },
+        {
+          "year": 2024,
+          "probability": 0.0
+        }
+      ]
+    },
+    "T2M_MIN": {
+      "freezing_below_0C": [
+        {
+          "year": 2005,
+          "probability": 0.2465753424657534
+        },
+        {
+          "year": 2006,
+          "probability": 0.23835616438356164
+        },
+        {
+          "year": 2007,
+          "probability": 0.2410958904109589
+        },
+        {
+          "year": 2008,
+          "probability": 0.22404371584699453
+        },
+        {
+          "year": 2009,
+          "probability": 0.18356164383561643
+        },
+        {
+          "year": 2010,
+          "probability": 0.1178082191780822
+        },
+        {
+          "year": 2011,
+          "probability": 0.3452054794520548
+        },
+        {
+          "year": 2012,
+          "probability": 0.2814207650273224
+        },
+        {
+          "year": 2013,
+          "probability": 0.19452054794520549
+        },
+        {
+          "year": 2014,
+          "probability": 0.23013698630136986
+        },
+        {
+          "year": 2015,
+          "probability": 0.2191780821917808
+        },
+        {
+          "year": 2016,
+          "probability": 0.24863387978142076
+        },
+        {
+          "year": 2017,
+          "probability": 0.2356164383561644
+        },
+        {
+          "year": 2018,
+          "probability": 0.15616438356164383
+        },
+        {
+          "year": 2019,
+          "probability": 0.2054794520547945
+        },
+        {
+          "year": 2020,
+          "probability": 0.25136612021857924
+        },
+        {
+          "year": 2021,
+          "probability": 0.20821917808219179
+        },
+        {
+          "year": 2022,
+          "probability": 0.25205479452054796
+        },
+        {
+          "year": 2023,
+          "probability": 0.18082191780821918
+        },
+        {
+          "year": 2024,
+          "probability": 0.17486338797814208
+        }
+      ],
+      "very_cold_below_minus10C": [
+        {
+          "year": 2005,
+          "probability": 0.0027397260273972603
+        },
+        {
+          "year": 2006,
+          "probability": 0.0
+        },
+        {
+          "year": 2007,
+          "probability": 0.0
+        },
+        {
+          "year": 2008,
+          "probability": 0.0
+        },
+        {
+          "year": 2009,
+          "probability": 0.0
+        },
+        {
+          "year": 2010,
+          "probability": 0.0
+        },
+        {
+          "year": 2011,
+          "probability": 0.0
+        },
+        {
+          "year": 2012,
+          "probability": 0.01092896174863388
+        },
+        {
+          "year": 2013,
+          "probability": 0.0
+        },
+        {
+          "year": 2014,
+          "probability": 0.00821917808219178
+        },
+        {
+          "year": 2015,
+          "probability": 0.0
+        },
+        {
+          "year": 2016,
+          "probability": 0.0
+        },
+        {
+          "year": 2017,
+          "probability": 0.0
+        },
+        {
+          "year": 2018,
+          "probability": 0.0
+        },
+        {
+          "year": 2019,
+          "probability": 0.0
+        },
+        {
+          "year": 2020,
+          "probability": 0.0
+        },
+        {
+          "year": 2021,
+          "probability": 0.0
+        },
+        {
+          "year": 2022,
+          "probability": 0.0
+        },
+        {
+          "year": 2023,
+          "probability": 0.0
+        },
+        {
+          "year": 2024,
+          "probability": 0.0
+        }
+      ]
+    },
+    "WS10M_MAX": {
+      "windy_above_10mps": [
+        {
+          "year": 2005,
+          "probability": 0.021917808219178082
+        },
+        {
+          "year": 2006,
+          "probability": 0.030136986301369864
+        },
+        {
+          "year": 2007,
+          "probability": 0.030136986301369864
+        },
+        {
+          "year": 2008,
+          "probability": 0.030054644808743168
+        },
+        {
+          "year": 2009,
+          "probability": 0.0273972602739726
+        },
+        {
+          "year": 2010,
+          "probability": 0.024657534246575342
+        },
+        {
+          "year": 2011,
+          "probability": 0.019178082191780823
+        },
+        {
+          "year": 2012,
+          "probability": 0.0273224043715847
+        },
+        {
+          "year": 2013,
+          "probability": 0.038356164383561646
+        },
+        {
+          "year": 2014,
+          "probability": 0.021917808219178082
+        },
+        {
+          "year": 2015,
+          "probability": 0.0273972602739726
+        },
+        {
+          "year": 2016,
+          "probability": 0.03825136612021858
+        },
+        {
+          "year": 2017,
+          "probability": 0.052054794520547946
+        },
+        {
+          "year": 2018,
+          "probability": 0.019178082191780823
+        },
+        {
+          "year": 2019,
+          "probability": 0.049315068493150684
+        },
+        {
+          "year": 2020,
+          "probability": 0.030054644808743168
+        },
+        {
+          "year": 2021,
+          "probability": 0.0136986301369863
+        },
+        {
+          "year": 2022,
+          "probability": 0.049315068493150684
+        },
+        {
+          "year": 2023,
+          "probability": 0.03287671232876712
+        },
+        {
+          "year": 2024,
+          "probability": 0.03551912568306011
+        }
+      ],
+      "very_windy_above_15mps": [
+        {
+          "year": 2005,
+          "probability": 0.0
+        },
+        {
+          "year": 2006,
+          "probability": 0.0
+        },
+        {
+          "year": 2007,
+          "probability": 0.0
+        },
+        {
+          "year": 2008,
+          "probability": 0.00273224043715847
+        },
+        {
+          "year": 2009,
+          "probability": 0.0
+        },
+        {
+          "year": 2010,
+          "probability": 0.0027397260273972603
+        },
+        {
+          "year": 2011,
+          "probability": 0.0
+        },
+        {
+          "year": 2012,
+          "probability": 0.0
+        },
+        {
+          "year": 2013,
+          "probability": 0.0027397260273972603
+        },
+        {
+          "year": 2014,
+          "probability": 0.0
+        },
+        {
+          "year": 2015,
+          "probability": 0.0027397260273972603
+        },
+        {
+          "year": 2016,
+          "probability": 0.0
+        },
+        {
+          "year": 2017,
+          "probability": 0.0
+        },
+        {
+          "year": 2018,
+          "probability": 0.0
+        },
+        {
+          "year": 2019,
+          "probability": 0.0
+        },
+        {
+          "year": 2020,
+          "probability": 0.0
+        },
+        {
+          "year": 2021,
+          "probability": 0.0
+        },
+        {
+          "year": 2022,
+          "probability": 0.0
+        },
+        {
+          "year": 2023,
+          "probability": 0.0
+        },
+        {
+          "year": 2024,
+          "probability": 0.0
+        }
+      ],
+      "extreme_wind_above_20mps": [
+        {
+          "year": 2005,
+          "probability": 0.0
+        },
+        {
+          "year": 2006,
+          "probability": 0.0
+        },
+        {
+          "year": 2007,
+          "probability": 0.0
+        },
+        {
+          "year": 2008,
+          "probability": 0.0
+        },
+        {
+          "year": 2009,
+          "probability": 0.0
+        },
+        {
+          "year": 2010,
+          "probability": 0.0
+        },
+        {
+          "year": 2011,
+          "probability": 0.0
+        },
+        {
+          "year": 2012,
+          "probability": 0.0
+        },
+        {
+          "year": 2013,
+          "probability": 0.0
+        },
+        {
+          "year": 2014,
+          "probability": 0.0
+        },
+        {
+          "year": 2015,
+          "probability": 0.0
+        },
+        {
+          "year": 2016,
+          "probability": 0.0
+        },
+        {
+          "year": 2017,
+          "probability": 0.0
+        },
+        {
+          "year": 2018,
+          "probability": 0.0
+        },
+        {
+          "year": 2019,
+          "probability": 0.0
+        },
+        {
+          "year": 2020,
+          "probability": 0.0
+        },
+        {
+          "year": 2021,
+          "probability": 0.0
+        },
+        {
+          "year": 2022,
+          "probability": 0.0
+        },
+        {
+          "year": 2023,
+          "probability": 0.0
+        },
+        {
+          "year": 2024,
+          "probability": 0.0
+        }
+      ]
+    }
+  }
+}
