@@ -15,6 +15,19 @@ export interface ExportData {
 }
 
 /**
+ * Escape a CSV field by quoting it if it contains special characters
+ * and escaping any internal quotes by doubling them
+ */
+function escapeCSVField(field: string): string {
+  // If field contains comma, quote, newline, or carriage return, it needs to be quoted
+  // and internal quotes need to be doubled
+  if (field.includes(',') || field.includes('"') || field.includes('\n') || field.includes('\r')) {
+    return `"${field.replace(/"/g, '""')}"`;
+  }
+  return field;
+}
+
+/**
  * Generate CSV content from export data
  */
 export function generateCSV(data: ExportData[]): string {
@@ -43,8 +56,8 @@ export function generateCSV(data: ExportData[]): string {
   ]);
 
   const csvContent = [
-    headers.join(','),
-    ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+    headers.map(escapeCSVField).join(','),
+    ...rows.map(row => row.map(escapeCSVField).join(','))
   ].join('\n');
 
   return csvContent;
