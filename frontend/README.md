@@ -21,6 +21,9 @@ A React + TypeScript + Vite dashboard for visualizing weather probabilities from
 # Install dependencies
 npm install
 
+# Create symlink to data directory (if not already present)
+cd public && ln -s ../../data data && cd ..
+
 # Start development server
 npm run dev
 
@@ -32,6 +35,8 @@ npm run preview
 ```
 
 The dashboard will be available at `http://localhost:5173`
+
+**Note**: The `public/data` symlink allows the frontend to access the pre-processed weather data files. This symlink is already included in the repository.
 
 ## Data Sources
 

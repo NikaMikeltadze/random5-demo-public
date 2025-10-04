@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     fs: {
-      // Allow serving files from the parent directory (data folder)
+      // Allow serving files from the parent directory (data folder via symlink)
       allow: ['..']
     }
   },
