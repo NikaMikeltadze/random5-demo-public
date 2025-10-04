@@ -1,38 +1,41 @@
 import type { WeatherData, AllLocationsSummary, PresetQuery } from '../types/weather.types';
 
-const DATA_BASE = '/data';
+// Use BASE_URL so the app works when hosted under a subpath. Serve data from public/static-data
+const DATA_BASE = `${import.meta.env.BASE_URL}static-data`;
+
+async function fetchJson<T>(url: string): Promise<T> {
+  const res = await fetch(url, { cache: 'no-store' });
+  if (!res.ok) {
+    throw new Error(`Failed to fetch ${url} (status ${res.status})`);
+  }
+  // Guard against HTML being served (e.g., 404 fallback to index.html)
+  const contentType = res.headers.get('content-type') || '';
+  if (!contentType.includes('application/json')) {
+    const text = await res.text();
+    throw new Error(`Expected JSON but received: ${text.slice(0, 120)}...`);
+  }
+  return res.json();
+}
 
 /**
  * Load daily stats for a specific location
  */
 export async function loadDailyStats(location: string): Promise<WeatherData> {
-  const response = await fetch(`${DATA_BASE}/processed/${location}_daily_stats.json`);
-  if (!response.ok) {
-    throw new Error(`Failed to load daily stats for ${location}`);
-  }
-  return response.json();
+  return fetchJson<WeatherData>(`${DATA_BASE}/processed/${location}_daily_stats.json`);
 }
 
 /**
  * Load summary data for all locations
  */
 export async function loadAllLocationsSummary(): Promise<AllLocationsSummary> {
-  const response = await fetch(`${DATA_BASE}/demo/all_locations_summary.json`);
-  if (!response.ok) {
-    throw new Error('Failed to load locations summary');
-  }
-  return response.json();
+  return fetchJson<AllLocationsSummary>(`${DATA_BASE}/demo/all_locations_summary.json`);
 }
 
 /**
  * Load preset demo queries
  */
 export async function loadPresetQueries(): Promise<PresetQuery[]> {
-  const response = await fetch(`${DATA_BASE}/demo/preset_demo_queries.json`);
-  if (!response.ok) {
-    throw new Error('Failed to load preset queries');
-  }
-  return response.json();
+  return fetchJson<PresetQuery[]>(`${DATA_BASE}/demo/preset_demo_queries.json`);
 }
 
 /**
