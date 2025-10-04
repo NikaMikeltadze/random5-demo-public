@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: rgb(17 24 39);
+    color: rgb(255 255 255);
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+}
+
+.card {
+  background-color: rgb(31 41 55);
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  padding: 1.5rem;
+  border: 1px solid rgb(55 65 81);
+}
+
+.btn-primary {
+  background-color: #0B3D91;
+  color: rgb(255 255 255);
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  transition: all 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: rgb(29 78 216);
+}
+
+.btn-secondary {
+  background-color: rgb(55 65 81);
+  color: rgb(255 255 255);
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  background-color: rgb(75 85 99);
+}
+
+/* Leaflet CSS overrides for dark theme */
+.leaflet-container {
+  background-color: rgb(31 41 55);
+}
+
+.leaflet-popup-content-wrapper {
+  background-color: rgb(31 41 55);
+  color: rgb(255 255 255);
+}
+
+.leaflet-popup-tip {
+  background-color: rgb(31 41 55);
+}

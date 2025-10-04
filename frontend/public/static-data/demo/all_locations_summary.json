@@ -1,0 +1,85 @@
+{
+  "generated_at": "2025-10-04T14:18:55.203059+00:00",
+  "hackathon": "NASA Space Apps 2025",
+  "project": "Will It Rain On My Parade?",
+  "locations": [
+    {
+      "id": "tbilisi",
+      "name": "Tbilisi, Georgia",
+      "coordinates": {
+        "lat": 41.7151,
+        "lon": 44.8271
+      },
+      "climate_summary": {
+        "annual_precipitation_mm": 387.88699999999994,
+        "avg_annual_temp_c": 13.450792345983979,
+        "wettest_month": "May",
+        "driest_month": "December",
+        "hottest_month": "July"
+      },
+      "extreme_event_annual_probabilities": {
+        "heavy_rain_days": 5.1,
+        "extreme_heat_days": 23.35,
+        "high_wind_days": 11.3
+      },
+      "data_files": {
+        "daily_stats": "data/processed/tbilisi_daily_stats.json",
+        "hourly_stats": "data/processed/tbilisi_hourly_stats.json"
+      }
+    },
+    {
+      "id": "batumi",
+      "name": "Batumi, Georgia",
+      "coordinates": {
+        "lat": 41.6168,
+        "lon": 41.6367
+      },
+      "climate_summary": {
+        "annual_precipitation_mm": 1169.145,
+        "avg_annual_temp_c": 10.621887596376974,
+        "wettest_month": "October",
+        "driest_month": "August",
+        "hottest_month": "August"
+      },
+      "extreme_event_annual_probabilities": {
+        "heavy_rain_days": 35.8,
+        "extreme_heat_days": 0.4,
+        "high_wind_days": 0.05
+      },
+      "data_files": {
+        "daily_stats": "data/processed/batumi_daily_stats.json",
+        "hourly_stats": "data/processed/batumi_hourly_stats.json"
+      }
+    },
+    {
+      "id": "kutaisi",
+      "name": "Kutaisi, Georgia",
+      "coordinates": {
+        "lat": 42.2679,
+        "lon": 42.705
+      },
+      "climate_summary": {
+        "annual_precipitation_mm": 1056.16,
+        "avg_annual_temp_c": 11.939308990193876,
+        "wettest_month": "October",
+        "driest_month": "August",
+        "hottest_month": "August"
+      },
+      "extreme_event_annual_probabilities": {
+        "heavy_rain_days": 31.3,
+        "extreme_heat_days": 11.25,
+        "high_wind_days": 0.0
+      },
+      "data_files": {
+        "daily_stats": "data/processed/kutaisi_daily_stats.json",
+        "hourly_stats": "data/processed/kutaisi_hourly_stats.json"
+      }
+    }
+  ],
+  "nasa_attribution": {
+    "dataset": "NASA POWER",
+    "full_citation": "NASA/POWER CERES/MERRA2 Native Resolution Daily and Hourly Data; Derived from satellite and model reanalysis data",
+    "url": "https://power.larc.nasa.gov/",
+    "license": "Creative Commons Attribution 4.0 International"
+  }
+}
