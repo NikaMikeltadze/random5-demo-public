@@ -1,0 +1,5 @@
+{
+  "name": "Weather Insights Dashboard",
+  "description": "A modern frontend for a weather insights application where users can set personal weather thresholds, select locations on a map, and view insightful dashboards with charts and graphs.",
+  "requestFramePermissions": []
+}
