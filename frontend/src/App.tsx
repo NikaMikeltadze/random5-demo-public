@@ -22,7 +22,7 @@ function App() {
   const [summary, setSummary] = useState<AllLocationsSummary | null>(null);
   const [presetQueries, setPresetQueries] = useState<PresetQuery[]>([]);
   const [selectedLocation, setSelectedLocation] = useState('tbilisi');
-  const [selectedDate, setSelectedDate] = useState('08-15'); // MM-DD format
+  const [selectedDate, setSelectedDate] = useState('10-10'); // MM-DD format
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -85,7 +85,7 @@ function App() {
         case 'r':
         case 'R':
           setSelectedLocation('tbilisi');
-          setSelectedDate('08-15');
+          setSelectedDate('10-10');
           break;
       }
     };
