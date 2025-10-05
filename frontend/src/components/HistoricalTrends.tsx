@@ -61,7 +61,9 @@ export const HistoricalTrends: React.FC<HistoricalTrendsProps> = ({ weatherData,
     const monthlyAggregates: { [key: string]: { precips: number[], temps: number[], winds: number[], humidities: number[], count: number } } = {};
     
     weatherData.forEach(day => {
-      const monthIndex = new Date(day.date).getMonth();
+      // Use UTC to prevent local timezone from shifting the date into adjacent months
+      const d = new Date(day.date + 'T00:00:00Z');
+      const monthIndex = d.getUTCMonth();
       if (!monthlyAggregates[monthIndex]) {
         monthlyAggregates[monthIndex] = { precips: [], temps: [], winds: [], humidities: [], count: 0 };
       }

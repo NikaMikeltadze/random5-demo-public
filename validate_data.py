@@ -9,6 +9,14 @@ import pandas as pd
 VARIABLES_TO_CHECK = ['PRECTOTCORR', 'T2M_MAX', 'T2M_MIN', 'WS10M_MAX']
 
 
+def _is_number(x) -> bool:
+    try:
+        _ = float(x)
+        return True
+    except Exception:
+        return False
+
+
 def validate_json_file(path: str) -> Dict:
     t0 = time.perf_counter()
     with open(path, 'r', encoding='utf-8') as f:
@@ -24,21 +32,39 @@ def validate_json_file(path: str) -> Dict:
 
     variables = data.get('variables', {})
 
-    # Check day-of-year coverage and probability ranges
+    # Check day-of-year coverage and value ranges
     for var in VARIABLES_TO_CHECK:
         if var not in variables:
             # Not all variables are required to be present depending on API availability
             continue
         day_map: Dict = variables[var]
-        # Expect up to 366 days
+
+        # Keys must be '1'..'366'
+        bad_keys = [k for k in day_map.keys() if not k.isdigit() or int(k) < 1 or int(k) > 366]
+        if bad_keys:
+            issues.append(f"{var}: Invalid DOY keys detected (examples: {bad_keys[:5]})")
+
+        # Expect up to 366 days; allow gaps but report
         missing_days = [str(d) for d in range(1, 367) if str(d) not in day_map]
         if missing_days:
             issues.append(f"{var}: Missing {len(missing_days)} DOY entries (e.g., {missing_days[:5]})")
-        # Validate probabilities
+
+        # Validate stats block
         for dstr, stats_dict in day_map.items():
+            # Numeric sanity
+            for num_key in ['mean', 'median', 'std', 'min', 'max']:
+                val = stats_dict.get(num_key, None)
+                if val is None or not _is_number(val):
+                    issues.append(f"{var} DOY {dstr}: non-numeric {num_key}: {val}")
+            # Min/Max relation
+            mn, mx = stats_dict.get('min', None), stats_dict.get('max', None)
+            if _is_number(mn) and _is_number(mx) and float(mn) > float(mx):
+                issues.append(f"{var} DOY {dstr}: min > max ({mn} > {mx})")
+
+            # Probabilities
             probs = stats_dict.get('probabilities', {})
             for name, p in probs.items():
-                if p is None or not (0.0 <= float(p) <= 1.0):
+                if p is None or not _is_number(p) or not (0.0 <= float(p) <= 1.0):
                     issues.append(f"{var} DOY {dstr}: probability {name} out of bounds: {p}")
 
     return {

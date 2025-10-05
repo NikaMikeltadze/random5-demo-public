@@ -24,6 +24,7 @@ export interface WeatherDataPoint {
   precipitation: number;
   windSpeed: number; // m/s
   humidity: number; // %
+  probabilities?: Record<string, number>; // per-DOY probabilities merged from variables
   hourly?: HourlyDataPoint[];
 }
 

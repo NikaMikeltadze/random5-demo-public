@@ -76,6 +76,7 @@ export const HourlyCarousel: React.FC<HourlyCarouselProps> = ({ weatherData, thr
                     <XAxis dataKey="hour" tick={{ fill: '#94a3b8' }} fontSize={12} interval={2} />
                     <YAxis yAxisId="temp" dataKey="temp" tick={{ fill: '#fca5a5' }} fontSize={12} unit="°C" domain={[-20, 60]} />
                     <YAxis yAxisId="humidity" dataKey="humidity" orientation="right" tick={{ fill: '#a3e635' }} fontSize={12} unit="%" domain={[0, 100]}/>
+                    <YAxis yAxisId="wind" orientation="right" tick={{ fill: '#67e8f9' }} fontSize={12} unit="km/h" domain={[0, 120]}/>
                      <Tooltip
                         contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155' }}
                         labelStyle={{ color: '#f1f5f9' }}
@@ -86,12 +87,12 @@ export const HourlyCarousel: React.FC<HourlyCarouselProps> = ({ weatherData, thr
                     {/* Threshold Lines */}
                     <ReferenceLine yAxisId="temp" y={thresholds.hotTemp} label={{ value: 'Hot', fill: '#ef4444', position: 'insideTopLeft' }} stroke="#ef4444" strokeDasharray="3 3" />
                     <ReferenceLine yAxisId="temp" y={thresholds.coldTemp} label={{ value: 'Cold', fill: '#60a5fa', position: 'insideBottomLeft' }} stroke="#60a5fa" strokeDasharray="3 3" />
-                    <ReferenceLine yAxisId="temp" y={thresholds.wind} stroke="#22d3ee" strokeDasharray="3 3" label={{ value: 'Windy', fill: '#22d3ee', position: 'insideTopRight' }} />
+                    <ReferenceLine yAxisId="wind" y={thresholds.wind} stroke="#22d3ee" strokeDasharray="3 3" label={{ value: 'Windy', fill: '#22d3ee', position: 'insideTopRight' }} />
 
 
                     <Line yAxisId="temp" type="monotone" dataKey="temp" name="Temp (°C)" stroke="#ef4444" strokeWidth={2} dot={false} />
                     <Line yAxisId="humidity" type="monotone" dataKey="humidity" name="Humidity (%)" stroke="#a3e635" strokeWidth={2} dot={false} />
-                    <Line yAxisId="temp" type="monotone" dataKey="wind" name="Wind (km/h)" stroke="#22d3ee" strokeWidth={2} dot={false} />
+                    <Line yAxisId="wind" type="monotone" dataKey="wind" name="Wind (km/h)" stroke="#22d3ee" strokeWidth={2} dot={false} />
                 </LineChart>
             </ResponsiveContainer>
         </div>

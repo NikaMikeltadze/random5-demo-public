@@ -65,32 +65,62 @@ const ProbabilityItem: React.FC<{
 export const WeatherProbabilities: React.FC<WeatherProbabilitiesProps> = ({ weatherData, thresholds, loading, dateRange }) => {
 
   const dayOfYear = useMemo(() => {
-    if(!dateRange.start) return 0;
-    // Use the start of the range to determine the day of the year
-    const start = new Date(dateRange.start + 'T00:00:00');
-    const yearStart = new Date(start.getFullYear(), 0, 0);
-    const diff = start.getTime() - yearStart.getTime();
+    if (!dateRange.start) return 0;
+    // Use UTC to avoid timezone drift
+    const startUtc = new Date(dateRange.start + 'T00:00:00Z');
+    const yearStartUtc = new Date(Date.UTC(startUtc.getUTCFullYear(), 0, 0));
+    const diff = startUtc.getTime() - yearStartUtc.getTime();
     const oneDay = 1000 * 60 * 60 * 24;
     return Math.floor(diff / oneDay);
-  }, [dateRange]);
+  }, [dateRange.start]);
 
   const probabilities = useMemo(() => {
     if (!weatherData || weatherData.length === 0) {
       return { rain: 0, temp: 0, wind: 0 };
     }
-    const totalDays = weatherData.length;
-    const rainDays = weatherData.filter(d => d.precipitation > thresholds.rain).length;
-    const tempDays = weatherData.filter(d => d.maxTemp > thresholds.hotTemp).length;
-    // Convert threshold from km/h to m/s for comparison with data
-    const windThresholdMS = thresholds.wind / 3.6;
-    const windDays = weatherData.filter(d => d.windSpeed > windThresholdMS).length;
-    
-    return {
-      rain: (rainDays / totalDays) * 100,
-      temp: (tempDays / totalDays) * 100,
-      wind: (windDays / totalDays) * 100,
-    };
-  }, [weatherData, thresholds]);
+
+    // Prefer per-DOY probabilities embedded in the weather data for the selected start day
+    const selected = weatherData.find(d => d.date === dateRange.start) || weatherData[0];
+    const pmap = selected?.probabilities || {};
+
+    // Map thresholds to the closest available probability key from the dataset
+    // Rain thresholds in mm
+    let rainProb = 0;
+    if (thresholds.rain >= 50) rainProb = (pmap['extreme_rain_above_50mm'] || 0) * 100;
+    else if (thresholds.rain >= 25) rainProb = (pmap['very_heavy_rain_above_25mm'] || 0) * 100;
+    else if (thresholds.rain >= 10) rainProb = (pmap['heavy_rain_above_10mm'] || 0) * 100;
+    else rainProb = (pmap['heavy_rain_above_10mm'] || 0) * 100;
+
+    // Temp thresholds in °C
+    let tempProb = 0;
+    if (thresholds.hotTemp >= 40) tempProb = (pmap['extreme_heat_above_40C'] || 0) * 100;
+    else if (thresholds.hotTemp >= 35) tempProb = (pmap['very_hot_above_35C'] || 0) * 100;
+    else if (thresholds.hotTemp >= 30) tempProb = (pmap['hot_above_30C'] || 0) * 100;
+    else tempProb = (pmap['hot_above_30C'] || 0) * 100;
+
+    // Wind thresholds in km/h -> m/s keys in dataset (10,15,20 mps)
+    const windMs = thresholds.wind / 3.6;
+    let windProb = 0;
+    if (windMs >= 20) windProb = (pmap['extreme_wind_above_20mps'] || 0) * 100;
+    else if (windMs >= 15) windProb = (pmap['very_windy_above_15mps'] || 0) * 100;
+    else if (windMs >= 10) windProb = (pmap['windy_above_10mps'] || 0) * 100;
+    else windProb = (pmap['windy_above_10mps'] || 0) * 100;
+
+    // Fallback: If all are zero and there is no probabilities map (older data), compute from the range as before
+    if ((rainProb + tempProb + windProb) === 0 && Object.keys(pmap).length === 0) {
+      const totalDays = weatherData.length;
+      const rainDays = weatherData.filter(d => d.precipitation > thresholds.rain).length;
+      const tempDays = weatherData.filter(d => d.maxTemp > thresholds.hotTemp).length;
+      const windDays = weatherData.filter(d => d.windSpeed > windMs).length;
+      return {
+        rain: (rainDays / totalDays) * 100,
+        temp: (tempDays / totalDays) * 100,
+        wind: (windDays / totalDays) * 100,
+      };
+    }
+
+    return { rain: rainProb, temp: tempProb, wind: windProb };
+  }, [weatherData, thresholds, dateRange.start]);
 
   return (
     <Card title="Weather Probabilities" titleIcon={<AlertTriangleIcon className="w-5 h-5 text-yellow-400"/>}>
