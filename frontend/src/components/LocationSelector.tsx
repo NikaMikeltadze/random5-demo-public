@@ -1,94 +1,90 @@
-import { useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import type { LocationInfo } from '../types/weather.types';
+import React, { useMemo } from 'react';
+import type { Location } from '../types/newTypes';
+import { Card } from './Card';
+import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
+import L from 'leaflet';
+
+// FIX: Default leaflet marker icon path issue with bundlers like Webpack.
+// This is a common workaround to ensure marker icons are displayed correctly.
+// @ts-ignore
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://aistudiocdn.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  iconUrl: 'https://aistudiocdn.com/leaflet@1.9.4/dist/images/marker-icon.png',
+  shadowUrl: 'https://aistudiocdn.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+});
+
 
 interface LocationSelectorProps {
-  locations: LocationInfo[];
-  selectedLocation: string;
-  onLocationSelect: (locationId: string) => void;
+  locations: Location[];
+  selectedLocation: Location;
+  onLocationChange: (location: Location) => void;
 }
 
-function MapUpdater({ center }: { center: [number, number] }) {
-  const map = useMap();
-  useEffect(() => {
-    map.setView(center, map.getZoom());
-  }, [center, map]);
-  return null;
-}
+// FIX: A helper component to update the map view when the location changes.
+// It must be a child of MapContainer to use the useMap hook.
+const MapUpdater: React.FC<{ center: [number, number]; zoom: number }> = ({ center, zoom }) => {
+    const map = useMap();
+    React.useEffect(() => {
+        map.setView(center, zoom);
+    }, [center, zoom, map]);
+    return null;
+};
 
-export default function LocationSelector({
-  locations,
-  selectedLocation,
-  onLocationSelect
-}: LocationSelectorProps) {
-  const selected = locations.find(loc => loc.id === selectedLocation);
-  const center: [number, number] = selected 
-    ? [selected.coordinates.lat, selected.coordinates.lon]
-    : [42.0, 43.0]; // Georgia center
+
+export const LocationSelector: React.FC<LocationSelectorProps> = ({ locations, selectedLocation, onLocationChange }) => {
+
+  // FIX: Derive map position from props.
+  const mapPosition = useMemo((): [number, number] => 
+    [selectedLocation.lat, selectedLocation.lon], 
+    [selectedLocation]
+  );
+
+  // FIX: Implement the change handler for the select dropdown.
+  const handleLocationChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newLocationName = event.target.value;
+    const newLocation = locations.find(loc => loc.name === newLocationName);
+    if (newLocation) {
+      onLocationChange(newLocation);
+    }
+  };
 
   return (
-    <div className="card">
-      <h2 className="text-2xl font-bold mb-4 text-nasa-blue">Select Location</h2>
-      
-      {/* Dropdown selector */}
-      <div className="mb-4">
-        <select
-          value={selectedLocation}
-          onChange={(e) => onLocationSelect(e.target.value)}
-          className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white focus:outline-none focus:ring-2 focus:ring-nasa-blue"
-        >
-          {locations.map((loc) => (
-            <option key={loc.id} value={loc.id}>
-              {loc.name}
-            </option>
-          ))}
-        </select>
-      </div>
+    <Card 
+        title="Select Location" 
+        className="h-full" // Keep h-full to match sibling, but internal layout will be robust
+    >
+        <div className="flex flex-col h-full">
+            <div>
+                <select
+                    value={selectedLocation.name}
+                    onChange={handleLocationChange}
+                    className="w-full p-2 bg-slate-700 text-white rounded-md border border-slate-600 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                >
+                    {locations.map(loc => (
+                    <option key={loc.name} value={loc.name}>{loc.name}</option>
+                    ))}
+                </select>
+            </div>
+            
+            {/* This container will now have a fixed height, making it visible on all screen sizes */}
+            <div className="relative my-4 rounded-lg overflow-hidden flex-grow h-80">
+                <MapContainer center={mapPosition} zoom={6} scrollWheelZoom={true} style={{ height: '100%', width: '100%' }}>
+                    <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <Marker position={mapPosition}></Marker>
+                    <MapUpdater center={mapPosition} zoom={6} />
+                </MapContainer>
+            </div>
 
-      {/* Map */}
-      <div className="h-80 rounded-lg overflow-hidden border border-gray-700">
-        <MapContainer
-          center={center}
-          zoom={7}
-          style={{ height: '100%', width: '100%' }}
-          scrollWheelZoom={false}
-        >
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          <MapUpdater center={center} />
-          {locations.map((loc) => (
-            <Marker
-              key={loc.id}
-              position={[loc.coordinates.lat, loc.coordinates.lon]}
-              eventHandlers={{
-                click: () => onLocationSelect(loc.id)
-              }}
-            >
-              <Popup>
-                <div className="text-gray-900">
-                  <strong>{loc.name}</strong>
-                  <br />
-                  Lat: {loc.coordinates.lat.toFixed(4)}
-                  <br />
-                  Lon: {loc.coordinates.lon.toFixed(4)}
-                </div>
-              </Popup>
-            </Marker>
-          ))}
-        </MapContainer>
-      </div>
-
-      {/* Selected location info */}
-      {selected && (
-        <div className="mt-4 p-4 bg-gray-700 rounded">
-          <h3 className="font-semibold text-lg">{selected.name}</h3>
-          <p className="text-sm text-gray-300">
-            Coordinates: {selected.coordinates.lat.toFixed(4)}, {selected.coordinates.lon.toFixed(4)}
-          </p>
+            <div className="text-center text-sm text-slate-400 pt-2">
+                <p className="font-semibold">{selectedLocation.name}</p>
+                <p>Coordinates: {selectedLocation.lat.toFixed(4)}, {selectedLocation.lon.toFixed(4)}</p>
+            </div>
         </div>
-      )}
-    </div>
+    </Card>
   );
-}
+};
