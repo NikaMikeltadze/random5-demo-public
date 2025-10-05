@@ -33,7 +33,6 @@ export const fetchWeatherData = async (
 
       // Leap day guard: if 366 missing, fall back to 365
       const doyKey = (n: number) => n.toString();
-      const hasDOY = (obj?: Record<string, DayStats>) => !!obj && (doyKey(dayOfYear) in obj || (dayOfYear === 366 && '365' in obj));
       const keyToUse = (obj?: Record<string, DayStats>) => {
         if (!obj) return undefined;
         if (doyKey(dayOfYear) in obj) return doyKey(dayOfYear);
