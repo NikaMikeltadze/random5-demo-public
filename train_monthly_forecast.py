@@ -247,21 +247,20 @@ def save_forecast(location: str, specs: List[SeriesSpec]):
     for sp in specs:
         preds, lower, upper, months = forecast_series(sp.values, horizon=12)
 
-        # Humidity-specific calibration: blend with seasonal monthly mean and clip to [0,100]
+        # Humidity-specific calibration: replace with seasonal monthly climatology and clip to [0,100]
         if sp.name == "humidity":
-            # Seasonal climatology by calendar month
+            # Use historical monthly means directly to ensure alignment with actuals
             month_means = sp.values.groupby(sp.values.index.month).mean()
-            blended = []
             widths = (upper - lower) / 2.0
+            preds_list = []
             for i, m_abbr in enumerate(months):
                 m_num = month_abbr_to_num.get(m_abbr, None)
                 clim = float(month_means.get(m_num, np.nan)) if m_num is not None else float("nan")
                 if not np.isfinite(clim):
                     clim = float(np.nanmean(sp.values.values))
-                b = 0.7 * float(preds[i]) + 0.3 * float(clim)
-                blended.append(b)
-            preds = np.array(blended, dtype=float)
-            # Re-center CI around blended preds with same half-width
+                preds_list.append(clim)
+            preds = np.array(preds_list, dtype=float)
+            # Re-center CI around climatology with same half-width
             lower = preds - widths
             upper = preds + widths
             # Clip to physical bounds
