@@ -21,6 +21,12 @@ THRESHOLDS = {
         'very_heavy_rain_above_25mm': 25.0,
         'extreme_rain_above_50mm': 50.0,
     },
+    'T2M': {
+        'warm_above_25C': 25.0,
+        'hot_above_30C': 30.0,
+        'cold_below_5C': 5.0,
+        'freezing_below_0C': 0.0,
+    },
     'T2M_MAX': {
         'hot_above_30C': 30.0,
         'very_hot_above_35C': 35.0,
@@ -30,10 +36,37 @@ THRESHOLDS = {
         'freezing_below_0C': 0.0,
         'very_cold_below_minus10C': -10.0,
     },
+    'WS2M': {
+        'breezy_above_5mps': 5.0,
+        'windy_above_10mps': 10.0,
+        'very_windy_above_15mps': 15.0,
+    },
+    'WS10M': {
+        'breezy_above_5mps': 5.0,
+        'windy_above_10mps': 10.0,
+        'very_windy_above_15mps': 15.0,
+    },
     'WS10M_MAX': {
         'windy_above_10mps': 10.0,
         'very_windy_above_15mps': 15.0,
         'extreme_wind_above_20mps': 20.0,
+    },
+    'RH2M': {
+        'dry_below_30pct': 30.0,
+        'humid_above_70pct': 70.0,
+        'very_humid_above_85pct': 85.0,
+    },
+    'PS': {
+        'low_pressure_below_100kPa': 100.0,
+        'high_pressure_above_102kPa': 102.0,
+    },
+    'QV2M': {
+        'dry_below_5gkg': 5.0,
+        'humid_above_15gkg': 15.0,
+    },
+    'ALLSKY_SFC_SW_DWN': {
+        'sunny_above_600Wm2': 600.0,
+        'very_sunny_above_800Wm2': 800.0,
     },
 }
 
@@ -176,8 +209,10 @@ def build_hourly_json(city_key: str, hourly_df: pd.DataFrame) -> Dict:
                 var_map[f'day_of_year_{doy}'] = hour_map
         hourly_patterns[var] = var_map
 
-    # Simple diurnal pattern for temperature
+    # Diurnal patterns for multiple variables
     diurnal_patterns = {}
+    
+    # Temperature diurnal pattern
     if 'T2M' in df.columns:
         temp_by_hour = df.groupby('hour')['T2M'].mean().dropna()
         if not temp_by_hour.empty:
@@ -185,6 +220,40 @@ def build_hourly_json(city_key: str, hourly_df: pd.DataFrame) -> Dict:
                 'summary': 'Peak temperatures typically occur between 14:00-16:00 local time',
                 'hottest_hour': int(temp_by_hour.idxmax()),
                 'coldest_hour': int(temp_by_hour.idxmin()),
+                'hourly_mean': {f'hour_{h}': float(temp_by_hour.loc[h]) for h in temp_by_hour.index},
+            }
+    
+    # Wind speed diurnal patterns
+    for wind_var in ['WS2M', 'WS10M']:
+        if wind_var in df.columns:
+            wind_by_hour = df.groupby('hour')[wind_var].mean().dropna()
+            if not wind_by_hour.empty:
+                diurnal_patterns[wind_var] = {
+                    'summary': 'Wind speeds typically peak during afternoon hours',
+                    'peak_hour': int(wind_by_hour.idxmax()),
+                    'calm_hour': int(wind_by_hour.idxmin()),
+                    'hourly_mean': {f'hour_{h}': float(wind_by_hour.loc[h]) for h in wind_by_hour.index},
+                }
+    
+    # Relative humidity diurnal pattern
+    if 'RH2M' in df.columns:
+        rh_by_hour = df.groupby('hour')['RH2M'].mean().dropna()
+        if not rh_by_hour.empty:
+            diurnal_patterns['RH2M'] = {
+                'summary': 'Relative humidity typically lowest during afternoon, highest at night',
+                'driest_hour': int(rh_by_hour.idxmin()),
+                'most_humid_hour': int(rh_by_hour.idxmax()),
+                'hourly_mean': {f'hour_{h}': float(rh_by_hour.loc[h]) for h in rh_by_hour.index},
+            }
+    
+    # Solar irradiance diurnal pattern
+    if 'ALLSKY_SFC_SW_DWN' in df.columns:
+        solar_by_hour = df.groupby('hour')['ALLSKY_SFC_SW_DWN'].mean().dropna()
+        if not solar_by_hour.empty:
+            diurnal_patterns['ALLSKY_SFC_SW_DWN'] = {
+                'summary': 'Solar irradiance peaks at solar noon (around 12:00-13:00 local time)',
+                'peak_hour': int(solar_by_hour.idxmax()),
+                'hourly_mean': {f'hour_{h}': float(solar_by_hour.loc[h]) for h in solar_by_hour.index},
             }
 
     period = {

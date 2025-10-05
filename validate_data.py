@@ -6,7 +6,11 @@ from typing import Dict, List
 import pandas as pd
 
 # Validation configuration
-VARIABLES_TO_CHECK = ['PRECTOTCORR', 'T2M_MAX', 'T2M_MIN', 'WS10M_MAX']
+VARIABLES_TO_CHECK = [
+    'PRECTOTCORR', 'T2M', 'T2M_MAX', 'T2M_MIN',
+    'WS2M', 'WS10M', 'WS10M_MAX',
+    'RH2M', 'PS', 'QV2M', 'ALLSKY_SFC_SW_DWN'
+]
 
 
 def validate_json_file(path: str) -> Dict:

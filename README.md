@@ -64,19 +64,59 @@ data/
 
 ## Variables
 
-```
-T2M, T2M_MAX, T2M_MIN, PRECTOTCORR,
-WS2M, WS10M, WS10M_MAX, RH2M, PS, QV2M, ALLSKY_SFC_SW_DWN
-```
+All available NASA POWER variables are now processed and included in the output:
 
-See inline code comments for definitions and units.
+**Temperature:**
+- `T2M` - Temperature at 2 Meters (°C)
+- `T2M_MAX` - Maximum Temperature at 2 Meters (°C)
+- `T2M_MIN` - Minimum Temperature at 2 Meters (°C)
+
+**Precipitation:**
+- `PRECTOTCORR` - Precipitation Corrected (mm/day for daily, mm/hour for hourly)
+
+**Wind:**
+- `WS2M` - Wind Speed at 2 Meters (m/s)
+- `WS10M` - Wind Speed at 10 Meters (m/s)
+- `WS10M_MAX` - Maximum Wind Speed at 10 Meters (m/s)
+
+**Humidity & Atmosphere:**
+- `RH2M` - Relative Humidity at 2 Meters (%)
+- `QV2M` - Specific Humidity at 2 Meters (g/kg)
+- `PS` - Surface Pressure (kPa)
+
+**Solar:**
+- `ALLSKY_SFC_SW_DWN` - All Sky Surface Shortwave Downward Irradiance (W/m²)
 
 ## Extreme Event Thresholds (configurable)
 
-- Heavy rain > 10 mm/day (very heavy > 25 mm/day, extreme > 50 mm/day)
-- Hot day > 30°C (very hot > 35°C, extreme > 40°C)
+All variables now have configurable thresholds for extreme events:
+
+**Precipitation:**
+- Heavy rain > 10 mm/day, very heavy > 25 mm/day, extreme > 50 mm/day
+
+**Temperature (T2M):**
+- Warm > 25°C, hot > 30°C, cold < 5°C, freezing < 0°C
+
+**Temperature (T2M_MAX):**
+- Hot > 30°C, very hot > 35°C, extreme heat > 40°C
+
+**Temperature (T2M_MIN):**
 - Freezing < 0°C, very cold < -10°C
-- Windy > 10 m/s (very windy > 15 m/s, extreme > 20 m/s)
+
+**Wind (all wind variables):**
+- Breezy > 5 m/s, windy > 10 m/s, very windy > 15 m/s, extreme > 20 m/s
+
+**Humidity:**
+- Dry < 30%, humid > 70%, very humid > 85%
+
+**Pressure:**
+- Low pressure < 100 kPa, high pressure > 102 kPa
+
+**Specific Humidity:**
+- Dry < 5 g/kg, humid > 15 g/kg
+
+**Solar Irradiance:**
+- Sunny > 600 W/m², very sunny > 800 W/m²
 
 These are defined in preprocess_probabilities.py and can be adjusted as needed.
 
