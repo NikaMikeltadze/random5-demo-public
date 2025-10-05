@@ -17,17 +17,46 @@ async function fetchJson<T>(url: string): Promise<T> {
   return res.json();
 }
 
+// Adjust humidity actual values (RH2M) by adding 15 percentage points and clamp to [0, 100]
+function adjustHumidityData(data: WeatherData): WeatherData {
+  const rh = data?.variables?.RH2M as any;
+  if (!rh) return data;
+  const clamp = (v: number) => Math.max(0, Math.min(100, v + 15));
+  for (const key of Object.keys(rh)) {
+    const d = rh[key];
+    if (!d) continue;
+    if (typeof d.mean === 'number') d.mean = clamp(d.mean);
+    if (typeof d.median === 'number') d.median = clamp(d.median);
+    if (typeof d.min === 'number') d.min = clamp(d.min);
+    if (typeof d.max === 'number') d.max = clamp(d.max);
+    if (d.percentiles) {
+      const p = d.percentiles;
+      if (typeof p.p25 === 'number') p.p25 = clamp(p.p25);
+      if (typeof p.p50 === 'number') p.p50 = clamp(p.p50);
+      if (typeof p.p75 === 'number') p.p75 = clamp(p.p75);
+      if (typeof p.p90 === 'number') p.p90 = clamp(p.p90);
+      if (typeof p.p95 === 'number') p.p95 = clamp(p.p95);
+    }
+    if (Array.isArray(d.yearly_values)) {
+      d.yearly_values = d.yearly_values.map((yv: any) => ({ ...yv, value: clamp(yv.value) }));
+    }
+  }
+  return data;
+}
+
 /**
  * Load daily stats for a specific location
  */
 export async function loadDailyStats(location: string): Promise<WeatherData> {
   const primary = `${DATA_BASE}/processed/${location}_daily_stats.json`;
   try {
-    return await fetchJson<WeatherData>(primary);
+    const data = await fetchJson<WeatherData>(primary);
+    return adjustHumidityData(data);
   } catch (e) {
     // Fallback path: some deployments serve data under /data instead of /static-data
     const alt = `${import.meta.env.BASE_URL}data/processed/${location}_daily_stats.json`;
-    return await fetchJson<WeatherData>(alt);
+    const data = await fetchJson<WeatherData>(alt);
+    return adjustHumidityData(data);
   }
 }
 
