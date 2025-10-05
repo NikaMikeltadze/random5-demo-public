@@ -40,6 +40,7 @@ function App() {
     setIsLoggedIn(false);
     setThresholds(DEFAULT_THRESHOLDS);
     setPage('dashboard');
+    localStorage.removeItem('access_token');
   };
 
   const handleSaveThresholds = (newThresholds: Thresholds) => {
@@ -66,6 +67,21 @@ function App() {
   }, []);
 
   useEffect(() => {
+    // on mount, validate token if present
+    const token = localStorage.getItem('access_token');
+    if (token) {
+      fetch('http://localhost:8000/auth/me', { headers: { Authorization: `Bearer ${token}` } })
+        .then((res) => {
+          if (res.ok) {
+            setIsLoggedIn(true);
+            setThresholds(USER_THRESHOLDS);
+          } else {
+            localStorage.removeItem('access_token');
+          }
+        })
+        .catch(() => localStorage.removeItem('access_token'));
+    }
+
     const loadWeatherData = async () => {
       setLoading(true);
       setError(null);
