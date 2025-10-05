@@ -1,0 +1,185 @@
+{
+  "location": "batumi",
+  "generated_at": "2025-10-04",
+  "data_period": {
+    "start": "2005-01-01",
+    "end": "2024-12-31",
+    "years": 20
+  },
+  "trends": {
+    "PRECTOTCORR": {
+      "label": "Heavy Rain",
+      "primary_threshold": "heavy_rain_above_10mm",
+      "primary_trend": {
+        "average_slope_per_year": -0.04318845782489009,
+        "median_slope_per_year": -0.0188421052631579,
+        "per_decade_change_percentage_points": -43.188457824890094,
+        "start_year": 2005,
+        "end_year": 2024,
+        "estimated_start_probability_percent": 43.263792935206865,
+        "estimated_end_probability_percent": 34.739793130366905,
+        "direction": "decreasing",
+        "risk_level": "low",
+        "percent_days_significant_trend": 4.918032786885246,
+        "num_days_analyzed": 366
+      },
+      "all_thresholds": {
+        "heavy_rain_above_10mm": {
+          "average_slope_per_year": -0.04318845782489009,
+          "median_slope_per_year": -0.0188421052631579,
+          "per_decade_change_percentage_points": -43.188457824890094,
+          "start_year": 2005,
+          "end_year": 2024,
+          "estimated_start_probability_percent": 43.263792935206865,
+          "estimated_end_probability_percent": 34.739793130366905,
+          "direction": "decreasing",
+          "risk_level": "low",
+          "percent_days_significant_trend": 4.918032786885246,
+          "num_days_analyzed": 366
+        },
+        "very_heavy_rain_above_25mm": {
+          "average_slope_per_year": -0.04318845782489009,
+          "median_slope_per_year": -0.0188421052631579,
+          "per_decade_change_percentage_points": -43.188457824890094,
+          "start_year": 2005,
+          "end_year": 2024,
+          "estimated_start_probability_percent": 42.08992486338798,
+          "estimated_end_probability_percent": 33.071975019516,
+          "direction": "decreasing",
+          "risk_level": "low",
+          "percent_days_significant_trend": 4.918032786885246,
+          "num_days_analyzed": 366
+        },
+        "extreme_rain_above_50mm": {
+          "average_slope_per_year": -0.04318845782489009,
+          "median_slope_per_year": -0.0188421052631579,
+          "per_decade_change_percentage_points": -43.188457824890094,
+          "start_year": 2005,
+          "end_year": 2024,
+          "estimated_start_probability_percent": 42.04894125683061,
+          "estimated_end_probability_percent": 32.95811865729898,
+          "direction": "decreasing",
+          "risk_level": "low",
+          "percent_days_significant_trend": 4.918032786885246,
+          "num_days_analyzed": 366
+        }
+      }
+    },
+    "T2M_MAX": {
+      "label": "Extreme Heat",
+      "primary_threshold": "hot_above_30C",
+      "primary_trend": {
+        "average_slope_per_year": 0.10997205102921238,
+        "median_slope_per_year": 0.1127819548872181,
+        "per_decade_change_percentage_points": 109.9720510292124,
+        "start_year": 2005,
+        "end_year": 2024,
+        "estimated_start_probability_percent": 15.246389539422326,
+        "estimated_end_probability_percent": 64.47021857923497,
+        "direction": "increasing",
+        "risk_level": "high",
+        "percent_days_significant_trend": 7.923497267759563,
+        "num_days_analyzed": 366
+      },
+      "all_thresholds": {
+        "hot_above_30C": {
+          "average_slope_per_year": 0.10997205102921238,
+          "median_slope_per_year": 0.1127819548872181,
+          "per_decade_change_percentage_points": 109.9720510292124,
+          "start_year": 2005,
+          "end_year": 2024,
+          "estimated_start_probability_percent": 15.246389539422326,
+          "estimated_end_probability_percent": 64.47021857923497,
+          "direction": "increasing",
+          "risk_level": "high",
+          "percent_days_significant_trend": 7.923497267759563,
+          "num_days_analyzed": 366
+        },
+        "very_hot_above_35C": {
+          "average_slope_per_year": 0.10997205102921238,
+          "median_slope_per_year": 0.1127819548872181,
+          "per_decade_change_percentage_points": 109.9720510292124,
+          "start_year": 2005,
+          "end_year": 2024,
+          "estimated_start_probability_percent": 14.794086651053865,
+          "estimated_end_probability_percent": 63.63302107728337,
+          "direction": "increasing",
+          "risk_level": "high",
+          "percent_days_significant_trend": 7.923497267759563,
+          "num_days_analyzed": 366
+        },
+        "extreme_heat_above_40C": {
+          "average_slope_per_year": 0.10997205102921238,
+          "median_slope_per_year": 0.1127819548872181,
+          "per_decade_change_percentage_points": 109.9720510292124,
+          "start_year": 2005,
+          "end_year": 2024,
+          "estimated_start_probability_percent": 14.766764246682282,
+          "estimated_end_probability_percent": 63.59203747072599,
+          "direction": "increasing",
+          "risk_level": "high",
+          "percent_days_significant_trend": 7.923497267759563,
+          "num_days_analyzed": 366
+        }
+      }
+    },
+    "WS10M_MAX": {
+      "label": "High Wind",
+      "primary_threshold": "windy_above_10mps",
+      "primary_trend": {
+        "average_slope_per_year": 0.004862987386499034,
+        "median_slope_per_year": 0.0076390977443609055,
+        "per_decade_change_percentage_points": 4.862987386499034,
+        "start_year": 2005,
+        "end_year": 2024,
+        "estimated_start_probability_percent": 12.859113973458236,
+        "estimated_end_probability_percent": 17.38917837626854,
+        "direction": "increasing",
+        "risk_level": "high",
+        "percent_days_significant_trend": 6.830601092896176,
+        "num_days_analyzed": 366
+      },
+      "all_thresholds": {
+        "windy_above_10mps": {
+          "average_slope_per_year": 0.004862987386499034,
+          "median_slope_per_year": 0.0076390977443609055,
+          "per_decade_change_percentage_points": 4.862987386499034,
+          "start_year": 2005,
+          "end_year": 2024,
+          "estimated_start_probability_percent": 12.859113973458236,
+          "estimated_end_probability_percent": 17.38917837626854,
+          "direction": "increasing",
+          "risk_level": "high",
+          "percent_days_significant_trend": 6.830601092896176,
+          "num_days_analyzed": 366
+        },
+        "very_windy_above_15mps": {
+          "average_slope_per_year": 0.004862987386499034,
+          "median_slope_per_year": 0.0076390977443609055,
+          "per_decade_change_percentage_points": 4.862987386499034,
+          "start_year": 2005,
+          "end_year": 2024,
+          "estimated_start_probability_percent": 12.859113973458236,
+          "estimated_end_probability_percent": 17.38917837626854,
+          "direction": "increasing",
+          "risk_level": "high",
+          "percent_days_significant_trend": 6.830601092896176,
+          "num_days_analyzed": 366
+        },
+        "extreme_wind_above_20mps": {
+          "average_slope_per_year": 0.004862987386499034,
+          "median_slope_per_year": 0.0076390977443609055,
+          "per_decade_change_percentage_points": 4.862987386499034,
+          "start_year": 2005,
+          "end_year": 2024,
+          "estimated_start_probability_percent": 12.859113973458236,
+          "estimated_end_probability_percent": 17.38917837626854,
+          "direction": "increasing",
+          "risk_level": "high",
+          "percent_days_significant_trend": 6.830601092896176,
+          "num_days_analyzed": 366
+        }
+      }
+    }
+  }
+}

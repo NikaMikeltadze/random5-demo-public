@@ -118,3 +118,37 @@ export interface PresetQuery {
 }
 
 export type RiskLevel = 'low' | 'medium' | 'high';
+
+export interface ProbabilityTrend {
+  average_slope_per_year: number;
+  median_slope_per_year: number;
+  per_decade_change_percentage_points: number;
+  start_year: number;
+  end_year: number;
+  estimated_start_probability_percent: number;
+  estimated_end_probability_percent: number;
+  direction: 'increasing' | 'decreasing' | 'stable';
+  risk_level: RiskLevel;
+  percent_days_significant_trend: number;
+  num_days_analyzed: number;
+}
+
+export interface VariableTrend {
+  label: string;
+  primary_threshold: string;
+  primary_trend: ProbabilityTrend;
+  all_thresholds: {
+    [thresholdKey: string]: ProbabilityTrend;
+  };
+}
+
+export interface TrendSummary {
+  location: string;
+  generated_at: string;
+  data_period: DataPeriod;
+  trends: {
+    PRECTOTCORR?: VariableTrend;
+    T2M_MAX?: VariableTrend;
+    WS10M_MAX?: VariableTrend;
+  };
+}

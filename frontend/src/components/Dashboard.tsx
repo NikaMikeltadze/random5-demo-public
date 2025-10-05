@@ -58,7 +58,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
       <ClimateSummary weatherData={weatherData} thresholds={thresholds} loading={loading} />
       
-      <HistoricalTrends weatherData={weatherData} loading={loading} thresholds={thresholds} />
+      <HistoricalTrends weatherData={weatherData} loading={loading} thresholds={thresholds} location={selectedLocation} />
 
       {/* FIX: Pass the correct `onQuickQuery` prop to the `onQueryClick` handler. The variable `onQueryClick` was not defined. */}
       <QuickQueries queries={quickQueries} onQueryClick={onQuickQuery} />
