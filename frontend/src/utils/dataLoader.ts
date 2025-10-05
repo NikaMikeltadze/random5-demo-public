@@ -21,7 +21,56 @@ async function fetchJson<T>(url: string): Promise<T> {
  * Load daily stats for a specific location
  */
 export async function loadDailyStats(location: string): Promise<WeatherData> {
-  return fetchJson<WeatherData>(`${DATA_BASE}/processed/${location}_daily_stats.json`);
+  const primary = `${DATA_BASE}/processed/${location}_daily_stats.json`;
+  try {
+    return await fetchJson<WeatherData>(primary);
+  } catch (e) {
+    // Fallback path: some deployments serve data under /data instead of /static-data
+    const alt = `${import.meta.env.BASE_URL}data/processed/${location}_daily_stats.json`;
+    return await fetchJson<WeatherData>(alt);
+  }
+}
+
+/**
+ * Load ML monthly forecast for a specific location (next 12 months). Returns null if unavailable.
+ */
+export async function loadMonthlyForecast(location: string): Promise<any | null> {
+  const primary = `${DATA_BASE}/processed/${location}_monthly_forecast.json`;
+  try {
+    return await fetchJson<any>(primary);
+  } catch (e) {
+    // Fallback path
+    const alt = `${import.meta.env.BASE_URL}data/processed/${location}_monthly_forecast.json`;
+    try {
+      return await fetchJson<any>(alt);
+    } catch (e2) {
+      return null;
+    }
+  }
+}
+
+/**
+ * Load optional hourly profiles (climatological hourly multipliers or means) for a location.
+ * The expected shape (if provided) is:
+ * {
+ *   "months": ["Jan", ...],
+ *   "wind": { "Jan": number[24], ... }, // multipliers summing ~24 or mean profile
+ *   "temp"?: { "Jan": number[24] },
+ *   "humidity"?: { "Jan": number[24] }
+ * }
+ */
+export async function loadHourlyProfiles(location: string): Promise<any | null> {
+  const primary = `${DATA_BASE}/processed/${location}_hourly_profiles.json`;
+  try {
+    return await fetchJson<any>(primary);
+  } catch (e) {
+    const alt = `${import.meta.env.BASE_URL}data/processed/${location}_hourly_profiles.json`;
+    try {
+      return await fetchJson<any>(alt);
+    } catch (e2) {
+      return null;
+    }
+  }
 }
 
 /**

@@ -4,8 +4,8 @@ import { Dashboard } from './components/Dashboard';
 import { LoginPage } from './components/LoginPage';
 import { ThresholdsPage } from './components/ThresholdsPage';
 import { Footer } from './components/Footer';
-import type { Location, DateRange, WeatherDataPoint, Thresholds, QuickQuery } from './types/newTypes';
-import { LOCATIONS, QUICK_QUERIES, DEFAULT_THRESHOLDS, USER_THRESHOLDS } from './constants';
+import type { Location, DateRange, WeatherDataPoint, Thresholds } from './types/newTypes';
+import { LOCATIONS, DEFAULT_THRESHOLDS, USER_THRESHOLDS } from './constants';
 import { fetchWeatherData } from './services/weatherService';
 
 const getInitialDateRange = (): DateRange => {
@@ -48,22 +48,6 @@ function App() {
     setPage('dashboard');
   };
 
-  const handleQuickQuery = useCallback((query: QuickQuery) => {
-    const location = LOCATIONS.find(l => l.name.toLowerCase().includes(query.location.toLowerCase()));
-    if (location) {
-      setSelectedLocation(location);
-    }
-    // Set date range to the single day from the query, using today's year for the end date
-    const [month, day] = query.date.split('-');
-    const year = new Date().getFullYear();
-    const dateStr = `${year}-${month}-${day}`;
-    
-    setDateRange({
-        start: dateStr,
-        end: dateStr,
-    });
-    setPage('dashboard');
-  }, []);
 
   useEffect(() => {
     const loadWeatherData = async () => {
@@ -105,8 +89,6 @@ function App() {
             thresholds={thresholds}
             loading={loading}
             error={error}
-            quickQueries={QUICK_QUERIES}
-            onQuickQuery={handleQuickQuery}
           />
         );
     }

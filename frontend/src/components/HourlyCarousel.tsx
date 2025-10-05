@@ -58,7 +58,7 @@ export const HourlyCarousel: React.FC<HourlyCarouselProps> = ({ weatherData, thr
   
   // FIX: Added timeZone: 'UTC' to prevent the date from shifting due to the user's local timezone.
   // FIX: Removed year from the display format.
-  const formattedDate = new Date(currentDayData.date + 'T00:00:00').toLocaleDateString('en-US', {
+  const formattedDate = new Date(currentDayData.date + 'T00:00:00Z').toLocaleDateString('en-US', {
       month: 'long', day: 'numeric', timeZone: 'UTC'
   });
 

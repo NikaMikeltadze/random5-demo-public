@@ -1,12 +1,11 @@
 import React from 'react';
-import type { Location, DateRange, WeatherDataPoint, Thresholds, QuickQuery } from '../types/newTypes';
+import type { Location, DateRange, WeatherDataPoint, Thresholds } from '../types/newTypes';
 import { LocationSelector } from './LocationSelector';
 import { DateRangePicker } from './DateRangePicker';
 import { ClimateSummary } from './ClimateSummary';
 import { WeatherProbabilities } from './WeatherProbabilities';
 import { HourlyCarousel } from './HourlyCarousel';
 import { HistoricalTrends } from './HistoricalTrends';
-import { QuickQueries } from './QuickQueries';
 import { DataDownloader } from './DataDownloader';
 import { CurrentThresholds } from './CurrentThresholds';
 
@@ -20,8 +19,6 @@ interface DashboardProps {
   thresholds: Thresholds;
   loading: boolean;
   error: string | null;
-  quickQueries: QuickQuery[];
-  onQuickQuery: (query: QuickQuery) => void;
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({
@@ -34,9 +31,10 @@ export const Dashboard: React.FC<DashboardProps> = ({
   thresholds,
   loading,
   error,
-  quickQueries,
-  onQuickQuery,
 }) => {
+  // Derive the location id the same way as the data service
+  const locationId = selectedLocation.name.toLowerCase().split(',')[0].trim();
+
   return (
     <div className="space-y-6">
       <CurrentThresholds thresholds={thresholds} />
@@ -56,12 +54,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
       <HourlyCarousel weatherData={weatherData} thresholds={thresholds} loading={loading} />
 
-      <ClimateSummary weatherData={weatherData} thresholds={thresholds} loading={loading} />
+      <ClimateSummary weatherData={weatherData} thresholds={thresholds} loading={loading} locationId={locationId} />
       
-      <HistoricalTrends weatherData={weatherData} loading={loading} thresholds={thresholds} />
-
-      {/* FIX: Pass the correct `onQuickQuery` prop to the `onQueryClick` handler. The variable `onQueryClick` was not defined. */}
-      <QuickQueries queries={quickQueries} onQueryClick={onQuickQuery} />
+      <HistoricalTrends weatherData={weatherData} loading={loading} thresholds={thresholds} locationId={locationId} />
 
       <DataDownloader weatherData={weatherData} />
     </div>

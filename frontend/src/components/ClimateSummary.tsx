@@ -1,12 +1,15 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import type { WeatherDataPoint, Thresholds, ClimateStats } from '../types/newTypes';
 import { Card } from './Card';
 import { RainfallIcon, ThermometerIcon, CalendarDaysIcon } from './icons/WeatherIcons';
+import { loadAllLocationsSummary } from '../utils/dataLoader';
 
 interface ClimateSummaryProps {
   weatherData: WeatherDataPoint[];
   thresholds: Thresholds;
   loading: boolean;
+  // Location id to look up long-term climatology (e.g., "tbilisi", "batumi")
+  locationId: string;
 }
 
 const SkeletonLoader = () => (
@@ -21,9 +24,51 @@ const SkeletonLoader = () => (
     </div>
 );
 
-export const ClimateSummary: React.FC<ClimateSummaryProps> = ({ weatherData, thresholds, loading }) => {
+export const ClimateSummary: React.FC<ClimateSummaryProps> = ({ weatherData, thresholds, loading, locationId }) => {
+  // Load long-term climatology summary for this location
+  const [climateOverride, setClimateOverride] = useState<ClimateStats | null>(null);
+  const [summaryLoading, setSummaryLoading] = useState<boolean>(false);
 
-  const stats: ClimateStats | null = useMemo(() => {
+  useEffect(() => {
+    let cancelled = false;
+    async function loadSummary() {
+      try {
+        setSummaryLoading(true);
+        const summary = await loadAllLocationsSummary();
+        const loc = summary.locations.find(l => l.id === locationId);
+        if (!cancelled && loc) {
+          setClimateOverride({
+            avgPrecipitation: loc.climate_summary.annual_precipitation_mm,
+            avgTemperature: loc.climate_summary.avg_annual_temp_c,
+            monthlyPatterns: {
+              wettest: loc.climate_summary.wettest_month,
+              driest: loc.climate_summary.driest_month,
+              hottest: loc.climate_summary.hottest_month,
+            },
+            extremeEvents: {
+              heavyRainDays: loc.extreme_event_annual_probabilities.heavy_rain_days,
+              extremeHeatDays: loc.extreme_event_annual_probabilities.extreme_heat_days,
+              highWindDays: loc.extreme_event_annual_probabilities.high_wind_days,
+            },
+          });
+        } else if (!cancelled) {
+          setClimateOverride(null);
+        }
+      } catch (e) {
+        if (!cancelled) setClimateOverride(null);
+      } finally {
+        if (!cancelled) setSummaryLoading(false);
+      }
+    }
+    if (locationId) {
+      loadSummary();
+    } else {
+      setClimateOverride(null);
+    }
+    return () => { cancelled = true; };
+  }, [locationId]);
+
+  const computedFromPeriod: ClimateStats | null = useMemo(() => {
     if (!weatherData || weatherData.length === 0) return null;
 
     const totalDays = weatherData.length;
@@ -57,14 +102,12 @@ export const ClimateSummary: React.FC<ClimateSummaryProps> = ({ weatherData, thr
     });
 
     // Calculate expected annual extreme events from daily probabilities
-    // Sum up the probabilities across all days in the period to get expected counts
     let heavyRainDays = 0;
     let extremeHeatDays = 0;
     let highWindDays = 0;
     
     weatherData.forEach(day => {
         if (day.probabilities) {
-            // Use pre-calculated probabilities from NASA data
             heavyRainDays += day.probabilities['heavy_rain_above_10mm'] || 0;
             extremeHeatDays += day.probabilities['very_hot_above_35C'] || 0;
             highWindDays += day.probabilities['windy_above_10mps'] || 0;
@@ -85,10 +128,12 @@ export const ClimateSummary: React.FC<ClimateSummaryProps> = ({ weatherData, thr
             highWindDays: highWindDays / yearsInPeriod,
         }
     };
-  }, [weatherData, thresholds]);
+  }, [weatherData]);
 
+  // Prefer long-term climatology if available; fall back to period-based computation
+  const stats: ClimateStats | null = climateOverride || computedFromPeriod;
 
-  if (loading) {
+  if (loading || summaryLoading) {
       return <Card title="Climate Summary"><SkeletonLoader /></Card>;
   }
   
