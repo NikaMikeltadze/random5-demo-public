@@ -56,9 +56,20 @@ export const ClimateSummary: React.FC<ClimateSummaryProps> = ({ weatherData, thr
         if (avgTemp > hottest.avg) hottest = { month: monthName, avg: avgTemp };
     });
 
-    const heavyRainDays = weatherData.filter(d => d.precipitation > thresholds.rain).length;
-    const extremeHeatDays = weatherData.filter(d => d.maxTemp > thresholds.hotTemp).length;
-    const highWindDays = weatherData.filter(d => d.windSpeed > (thresholds.wind / 3.6)).length;
+    // Calculate expected annual extreme events from daily probabilities
+    // Sum up the probabilities across all days in the period to get expected counts
+    let heavyRainDays = 0;
+    let extremeHeatDays = 0;
+    let highWindDays = 0;
+    
+    weatherData.forEach(day => {
+        if (day.probabilities) {
+            // Use pre-calculated probabilities from NASA data
+            heavyRainDays += day.probabilities['heavy_rain_above_10mm'] || 0;
+            extremeHeatDays += day.probabilities['very_hot_above_35C'] || 0;
+            highWindDays += day.probabilities['windy_above_10mps'] || 0;
+        }
+    });
 
     return {
         avgPrecipitation: totalPrecipitation / yearsInPeriod,
