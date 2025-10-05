@@ -143,20 +143,36 @@ export const HistoricalTrends: React.FC<HistoricalTrendsProps> = ({ weatherData,
           const v = safeAvg(x);
           return typeof v === 'number' ? v * 3.6 : undefined; // m/s -> km/h
         });
-        // If RH2M missing, build a proxy from precip and temp magnitude
+        // If RH2M missing, use calibrated monthly climatology baseline
         const humidity = rhAgg.map(x => {
           const v = safeAvg(x);
           if (typeof v === 'number') return Math.max(0, Math.min(100, v));
           return undefined;
         });
+
         if (!nasaData.variables.RH2M) {
+          // Monthly baseline for Georgian climate (Jan-Dec)
+          // Based on typical Black Sea/Caucasus humidity patterns
+          const climatologyBaseline = [66, 64, 60, 57, 60, 63, 65, 65, 64, 63, 65, 67];
+          
           for (let m = 0; m < 12; m++) {
             const p = precipitation[m];
             const t = temperature[m];
+            
             if (typeof p === 'number' && typeof t === 'number') {
-              // Simple proxy: base 55% + rain influence - temp influence
-              const proxy = Math.max(0, Math.min(100, 55 + Math.min(p / 5, 1) * 30 - Math.min(Math.max(t - 15, 0) / 20, 1) * 20));
-              humidity[m] = proxy;
+              // Start with climatology baseline
+              const baseline = climatologyBaseline[m];
+              
+              // Adjust for precipitation anomaly (compared to expected 2-3mm/day)
+              const rainAnomaly = p - 2.5; // mm/day deviation
+              const rainAdjust = Math.max(-10, Math.min(15, rainAnomaly * 3)); // ±10-15%
+              
+              // Adjust for temperature anomaly (compared to 15°C baseline)
+              const tempAnomaly = t - 15;
+              const tempAdjust = Math.max(-12, Math.min(8, -tempAnomaly * 0.6)); // Hot = drier
+              
+              // Combine adjustments with bounds
+              humidity[m] = Math.max(25, Math.min(90, baseline + rainAdjust + tempAdjust));
             }
           }
         }
