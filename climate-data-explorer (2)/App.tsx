@@ -1,10 +1,10 @@
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Navbar } from './components/Navbar';
 import { Dashboard } from './components/Dashboard';
 import { LoginPage } from './components/LoginPage';
 import { ThresholdsPage } from './components/ThresholdsPage';
 import { Footer } from './components/Footer';
-import type { Location, DateRange, WeatherDataPoint, Thresholds, QuickQuery } from './types/newTypes';
+import type { Location, DateRange, WeatherDataPoint, Thresholds, QuickQuery } from './types';
 import { LOCATIONS, QUICK_QUERIES, DEFAULT_THRESHOLDS, USER_THRESHOLDS } from './constants';
 import { fetchWeatherData } from './services/weatherService';
 

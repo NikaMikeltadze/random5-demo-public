@@ -1,0 +1,20 @@
+# Climate data explorer old version - integrated into frontend/
+climate-data-explorer (2)/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

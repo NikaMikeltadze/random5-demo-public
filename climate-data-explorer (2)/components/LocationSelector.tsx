@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import type { Location } from '../types/newTypes';
+import type { Location } from '../types';
 import { Card } from './Card';
 import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
 import L from 'leaflet';
