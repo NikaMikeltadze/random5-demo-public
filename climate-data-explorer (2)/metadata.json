@@ -1,5 +1,0 @@
-{
-  "name": "Climate Data Explorer",
-  "description": "An interactive web application for analyzing historical climate data, visualizing trends, and assessing weather probabilities for specific locations and dates. Powered by NASA POWER data and Gemini for insightful summaries.",
-  "requestFramePermissions": []
-}
