@@ -45,6 +45,11 @@ export const fetchWeatherData = async (
       const maxTStatsKey = keyToUse(nasaData.variables.T2M_MAX);
       const minTStatsKey = keyToUse(nasaData.variables.T2M_MIN);
       const windStatsKey = keyToUse(nasaData.variables.WS10M_MAX);
+      // Optional additional variables to enrich predictions
+      const meanTStatsKey = keyToUse(nasaData.variables.T2M);
+      const rhStatsKey = keyToUse(nasaData.variables.RH2M);
+      const ws10StatsKey = keyToUse(nasaData.variables.WS10M);
+      const ws2StatsKey = keyToUse(nasaData.variables.WS2M);
 
       // Require, at minimum, precipitation and temperature stats. Wind is optional.
       if (!rainStatsKey || !maxTStatsKey || !minTStatsKey) {
@@ -57,6 +62,10 @@ export const fetchWeatherData = async (
       const maxTempData = nasaData.variables.T2M_MAX![maxTStatsKey];
       const minTempData = nasaData.variables.T2M_MIN![minTStatsKey];
       const windData = windStatsKey ? nasaData.variables.WS10M_MAX![windStatsKey] : undefined;
+      const meanTempData = meanTStatsKey ? nasaData.variables.T2M![meanTStatsKey] : undefined;
+      const rhData = rhStatsKey ? nasaData.variables.RH2M![rhStatsKey] : undefined;
+      const ws10MeanData = ws10StatsKey ? nasaData.variables.WS10M![ws10StatsKey] : undefined;
+      const ws2MeanData = ws2StatsKey ? nasaData.variables.WS2M![ws2StatsKey] : undefined;
 
       const maxTemp = maxTempData.mean;
       const minTemp = minTempData.mean;
@@ -70,24 +79,28 @@ export const fetchWeatherData = async (
         ...(windData?.probabilities || {}),
       };
 
-      // Derive a bounded humidity proxy from available data only (documented transformation)
-      // Increase with precipitation, decrease with higher temperature spread.
-      const tempSpread = Math.max(0, maxTemp - minTemp);
-      const spreadFactor = Math.min(tempSpread / 20, 1); // 0..1
-      const precipFactor = Math.min(precipitation / 20, 1); // 0..1 for heavy rain days
-      let humidity = 50 + precipFactor * 40 - spreadFactor * 20; // base 50%
-      humidity = Math.max(0, Math.min(100, humidity));
+      // Use actual RH2M mean when available; otherwise derive a bounded proxy.
+      let humidity = typeof rhData?.mean === 'number' ? Math.max(0, Math.min(100, rhData!.mean)) : undefined;
+      if (humidity === undefined) {
+        // Derive from precip and temperature spread
+        const tempSpread = Math.max(0, maxTemp - minTemp);
+        const spreadFactor = Math.min(tempSpread / 20, 1); // 0..1
+        const precipFactor = Math.min(precipitation / 20, 1); // 0..1 for heavy rain days
+        const h = 50 + precipFactor * 40 - spreadFactor * 20; // base 50%
+        humidity = Math.max(0, Math.min(100, h));
+      }
 
       // Optional pseudo-hourly curve strictly derived from daily min/max and wind; no randomization
       const hourly: HourlyDataPoint[] = [];
       const tempAmplitude = (maxTemp - minTemp) / 2;
-      const avgTemp = (maxTemp + minTemp) / 2;
+      const avgTempBase = typeof meanTempData?.mean === 'number' ? meanTempData!.mean : (maxTemp + minTemp) / 2;
       for (let i = 0; i < 24; i++) {
         // Temperature peaks around 14:00 (local approximation)
         const hourlyTempVariation = Math.sin((i - 8) * (Math.PI / 12));
-        const hourTemp = avgTemp + tempAmplitude * hourlyTempVariation;
-        const hourHumidity = Math.max(0, Math.min(100, humidity - hourlyTempVariation * 10));
-        const hourWind = Math.max(0, (windSpeed ?? 0) * 3.6); // km/h
+        const hourTemp = avgTempBase + tempAmplitude * hourlyTempVariation;
+        const hourHumidity = Math.max(0, Math.min(100, (humidity ?? 50) - hourlyTempVariation * 10));
+        const meanWindMs = typeof ws10MeanData?.mean === 'number' ? ws10MeanData!.mean : (typeof ws2MeanData?.mean === 'number' ? ws2MeanData!.mean : windSpeed ?? 0);
+        const hourWind = Math.max(0, meanWindMs * 3.6); // km/h
         hourly.push({
           hour: `${String(i).padStart(2, '0')}:00`,
           temp: hourTemp,

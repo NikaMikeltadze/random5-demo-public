@@ -3,10 +3,21 @@ import os
 import time
 from typing import Dict, List
 
-import pandas as pd
-
 # Validation configuration
-VARIABLES_TO_CHECK = ['PRECTOTCORR', 'T2M_MAX', 'T2M_MIN', 'WS10M_MAX']
+VARIABLES_TO_CHECK = [
+    'PRECTOTCORR',
+    'T2M_MAX',
+    'T2M_MIN',
+    'WS10M_MAX',
+    # Extended coverage
+    'T2M',
+    'WS2M',
+    'WS10M',
+    'RH2M',
+    'PS',
+    'QV2M',
+    'ALLSKY_SFC_SW_DWN',
+]
 
 
 def _is_number(x) -> bool:

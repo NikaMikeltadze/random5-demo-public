@@ -16,11 +16,13 @@ LOCATIONS: Dict[str, Dict[str, float]] = {
 
 # Thresholds for extreme events (configurable)
 THRESHOLDS = {
+    # Precipitation (mm/day)
     'PRECTOTCORR': {
         'heavy_rain_above_10mm': 10.0,
         'very_heavy_rain_above_25mm': 25.0,
         'extreme_rain_above_50mm': 50.0,
     },
+    # Temperatures (°C)
     'T2M_MAX': {
         'hot_above_30C': 30.0,
         'very_hot_above_35C': 35.0,
@@ -30,11 +32,40 @@ THRESHOLDS = {
         'freezing_below_0C': 0.0,
         'very_cold_below_minus10C': -10.0,
     },
+    # Add average temperature thresholds similar to max for context
+    'T2M': {
+        'hot_above_30C': 30.0,
+        'very_hot_above_35C': 35.0,
+        'extreme_heat_above_40C': 40.0,
+    },
+    # Winds (m/s)
     'WS10M_MAX': {
         'windy_above_10mps': 10.0,
         'very_windy_above_15mps': 15.0,
         'extreme_wind_above_20mps': 20.0,
     },
+    'WS10M': {
+        'windy_above_10mps': 10.0,
+        'very_windy_above_15mps': 15.0,
+        'extreme_wind_above_20mps': 20.0,
+    },
+    'WS2M': {
+        'windy_above_10mps': 10.0,
+        'very_windy_above_15mps': 15.0,
+        'extreme_wind_above_20mps': 20.0,
+    },
+    # Relative humidity (%)
+    'RH2M': {
+        'very_humid_above_90pct': 90.0,
+        'humid_above_80pct': 80.0,
+        'dry_below_20pct': 20.0,
+    },
+    # Surface pressure (kPa) — leave thresholds empty; stats only
+    'PS': {},
+    # Specific humidity (kg/kg) — stats only
+    'QV2M': {},
+    # Solar irradiance (W/m^2/day) — stats only
+    'ALLSKY_SFC_SW_DWN': {},
 }
 
 NASA_ATTRIBUTION = {
@@ -126,9 +157,14 @@ def build_daily_json(city_key: str, daily_df: pd.DataFrame) -> Dict:
         'nasa_source': NASA_ATTRIBUTION,
         'variables': {},
     }
+    # Populate available variables with computed stats
     for variable, thresholds in THRESHOLDS.items():
         if variable in daily_df.columns:
             city_stats['variables'][variable] = calculate_day_of_year_stats(daily_df, variable, thresholds)
+    # Ensure core schema keys exist even if data unavailable, to avoid single-variable JSONs
+    for variable in THRESHOLDS.keys():
+        if variable not in city_stats['variables']:
+            city_stats['variables'][variable] = {}
     return city_stats
 
 

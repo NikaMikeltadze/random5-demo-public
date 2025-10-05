@@ -70,6 +70,14 @@ export interface WeatherData {
     T2M_MAX?: VariableStats;
     T2M_MIN?: VariableStats;
     WS10M_MAX?: VariableStats;
+    // Newly added variables for full coverage
+    T2M?: VariableStats;
+    WS2M?: VariableStats;
+    WS10M?: VariableStats;
+    RH2M?: VariableStats;
+    PS?: VariableStats;
+    QV2M?: VariableStats;
+    ALLSKY_SFC_SW_DWN?: VariableStats;
   };
 }
 
