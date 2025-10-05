@@ -13,6 +13,7 @@ The project consists of two main components:
 
 - 🗺️ **Location-based Analysis**: Weather data for Tbilisi, Batumi, and Kutaisi
 - 📊 **Probability Calculations**: Statistical analysis of extreme weather events (heavy rain, extreme heat, high winds)
+- 📈 **ML Trend Detection**: Automated probability trend analysis showing climate change impacts
 - 📅 **Historical Trends**: Data spanning 2005-2024 (daily) and 2020-2024 (hourly)
 - 🎨 **Interactive Dashboard**: Modern React UI with maps, charts, and quick queries
 - ⚡ **Offline-First**: Pre-processed JSON files for instant loading
@@ -49,6 +50,9 @@ python nasa_power_download.py
 # Preprocess into demo-ready JSON
 python preprocess_probabilities.py
 
+# Calculate ML-based probability trends
+python calculate_probability_trends.py
+
 # Validate data integrity
 python validate_data.py
 ```
@@ -69,10 +73,11 @@ random5/
 │   ├── raw/             # Raw CSV from NASA POWER API
 │   ├── processed/       # Probability stats (JSON)
 │   └── demo/            # Summary files for dashboard
-├── nasa_power_download.py      # Data download script
-├── preprocess_probabilities.py # Statistical processing
-├── validate_data.py           # Data validation
-└── requirements.txt           # Python dependencies
+├── nasa_power_download.py         # Data download script
+├── preprocess_probabilities.py    # Statistical processing
+├── calculate_probability_trends.py # ML trend detection
+├── validate_data.py               # Data validation
+└── requirements.txt               # Python dependencies
 ```
 
 ## Dashboard Features
@@ -84,7 +89,7 @@ random5/
 - **Weather Probabilities**: Color-coded risk levels for extreme events
 - **Hourly Carousel**: Detailed hourly weather patterns
 - **Climate Summary**: Long-term statistics and trends
-- **Historical Trends**: Visualize weather patterns over time
+- **Historical Trends with ML**: Visualize weather patterns with automated trend detection showing probability changes (e.g., "+16.9% per decade")
 - **Quick Queries**: Pre-configured demo scenarios
 - **Data Export**: Download weather data as CSV with NASA attribution
 
@@ -116,8 +121,9 @@ Temperature (T2M, T2M_MAX, T2M_MIN), Precipitation (PRECTOTCORR), Wind Speed (WS
 
 1. **Download**: Fetches data from NASA POWER API with rate limiting and retry logic
 2. **Preprocessing**: Calculates day-of-year probabilities using historical data
-3. **Validation**: Ensures data integrity and generates summary files
-4. **Output**: JSON files optimized for instant dashboard loading
+3. **Trend Analysis**: Calculates ML-based probability trends across all days using linear regression
+4. **Validation**: Ensures data integrity and generates summary files
+5. **Output**: JSON files optimized for instant dashboard loading
 
 ## Development
 
@@ -138,6 +144,7 @@ See `frontend/README.md` for detailed frontend documentation.
 The data pipeline scripts are standalone Python files:
 - `nasa_power_download.py` - Downloads raw data from NASA POWER API
 - `preprocess_probabilities.py` - Processes data into probability statistics
+- `calculate_probability_trends.py` - Calculates ML-based probability trends for extreme events
 - `validate_data.py` - Validates data integrity
 
 ## NASA Data Attribution (Required)

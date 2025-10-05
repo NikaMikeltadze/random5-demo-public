@@ -13,8 +13,16 @@ interface HistoricalTrendsProps {
   location?: Location;
 }
 
+interface MonthlyDataPoint {
+    month: string;
+    precipitation: number;
+    temperature: number;
+    windSpeed: number;
+    humidity: number;
+}
+
 interface TrendChartProps {
-    data: any[];
+    data: MonthlyDataPoint[];
     title: string;
     dataKey: string;
     unit: string;

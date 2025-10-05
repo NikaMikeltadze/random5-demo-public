@@ -29,7 +29,7 @@ export const fetchWeatherData = async (
       const yearStart = new Date(Date.UTC(currentDate.getUTCFullYear(), 0, 0));
       const diff = currentDate.getTime() - yearStart.getTime();
       const oneDay = 1000 * 60 * 60 * 24;
-      let dayOfYear = Math.floor(diff / oneDay);
+      const dayOfYear = Math.floor(diff / oneDay);
 
       // Leap day guard: if 366 missing, fall back to 365
       const doyKey = (n: number) => n.toString();
